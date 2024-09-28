@@ -46,7 +46,7 @@ const HeaderStyle = styled.div<{ bgColor: string }>`
   width: 100%;
   height: 10%;
   max-width: 480px;
-  padding: 2% 3%;
+  padding: 20px;
   box-sizing: border-box;
   background-color: ${({ bgColor }) => bgColor}; // 전달받은 배경색 적용
 `;
