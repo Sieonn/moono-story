@@ -183,7 +183,7 @@ const FourCutPage = () => {
 
   return (
     <Container
-      style={{ minWidth: '425px', overflowY: 'auto' }}
+      style={{ minWidth: '425px', overflowY: 'auto', height: '100%' }}
       isDarkMode={isDarkMode}
     >
       <Header

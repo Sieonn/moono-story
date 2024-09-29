@@ -15,7 +15,7 @@ const Main = (props: any) => {
   const [user, setUser] = useRecoilState(userAtom);
   const popoverRef = useRef<HTMLDivElement | null>(null); // ref 생성
   const [isOpen, setIsOpen] = useState<boolean>(false);
-  console.log(darkMode);
+
 
   const handleButtonClick = (id: string) => {
     navigate(`/contIntro/${id}`);
@@ -30,22 +30,22 @@ const Main = (props: any) => {
 
   // 로그아웃 처리 함수
   const handleLogout = () => {
-    // // 사용자 상태 초기화
-    // setUser({
-    //   sub: '',
-    //   nickName: '',
-    //   oneMission: false,
-    //   twoMission: false,
-    //   threeMission: false,
-    //   fourMission: false,
-    //   fiveMission: false,
-    // });
-    // // 로그인 페이지로 이동
     alert('로그아웃 되었습니다 !');
     sessionStorage.clear();
     navigate('/login');
   };
+  // 다크 모드 상태를 localStorage에서 가져오기
+  useEffect(() => {
+    const storedDarkMode = localStorage.getItem('darkMode');
+    if (storedDarkMode !== null) {
+      setDarkMode(JSON.parse(storedDarkMode));
+    }
+  }, [setDarkMode]);
 
+  // 다크 모드 상태를 localStorage에 저장
+  useEffect(() => {
+    localStorage.setItem('darkMode', JSON.stringify(darkMode));
+  }, [darkMode]);
   const handleModeChange = () => {
     setDarkMode((prev) => !prev);
   };
@@ -93,11 +93,6 @@ const Main = (props: any) => {
             />
           )}
 
-          {/* <img
-            src={`${process.env.PUBLIC_URL}/images/main/bell.png`}
-            alt="알람"
-            style={{ cursor: 'pointer', width: '25px', height: '25px' }}
-          /> */}
           {darkMode ? (
             <LightModeIcon
               sx={{
@@ -131,9 +126,11 @@ const Main = (props: any) => {
           {isOpen && (
             <Popover ref={popoverRef}>
               <PopoverContent>
-                <div style={{ textAlign: 'center' }}>
-                  <div style={{ fontSize: '1.4em' }}>반가워요</div>
-                  <div>{user.nickName}님</div>
+                <div style={{ textAlign: 'center', color: 'black' }}>
+                  <div style={{ marginBottom: '10px' }}>반가워요</div>
+                  <div style={{ fontSize: '1.4em', marginBottom: '10px' }}>
+                    {user.nickName}님
+                  </div>
                 </div>
                 <PopoverBtn onClick={handleLogout}>로그아웃</PopoverBtn>
               </PopoverContent>
@@ -142,12 +139,12 @@ const Main = (props: any) => {
         </LogoRightSection>
       </HederStyled>
       <IntroMoo>
-        <IntroText >
+        <IntroText>
           <div style={{ color: `${theme.color.mainColor}` }}>
             용궁에서 찾아온 무너
           </div>
-          <div style={{ fontSize: '1.6em', letterSpacing: '-1px' }}>안녕?</div>
-          <div style={{ fontSize: '1.6em', letterSpacing: '-1px' }}>
+          <div style={{ fontSize: '1.6em', fontWeight: '800' }}>안녕?</div>
+          <div style={{ fontSize: '1.6em', fontWeight: '800' }}>
             나는 무너야 : )
           </div>
           <div
@@ -425,6 +422,7 @@ const IntroText = styled.div`
   width: 100%;
   font-weight: bold;
   margin-left: 5%;
+  letter-spacing: -1px;
 `;
 
 const IntroMooImg = styled.div`

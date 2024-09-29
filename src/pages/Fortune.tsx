@@ -258,15 +258,21 @@ const Fortune: React.FC = (props: any) => {
         </ImgSection>
         <div
           style={{
-            fontSize: '1.4em',
-            fontFamily: 'Pretendard',
+            fontSize: '24px',
             fontWeight: '900',
             marginTop: '10px',
+            letterSpacing: '-1px',
           }}
         >
           오늘 당신에게는 무슨 일이?
         </div>
-        <div style={{ fontSize: '0.9em', lineHeight: '1.7' }}>
+        <div
+          style={{
+            fontSize: '14px',
+            lineHeight: '1.7',
+            letterSpacing: '-1px',
+          }}
+        >
           간단한 입력으로{' '}
           <span
             style={{ color: `${theme.color.mainColor} `, fontWeight: '600' }}
@@ -499,9 +505,10 @@ const GenderButtonContainer = styled.div`
 `;
 
 const GenderButton = styled.button<{ isSelected: boolean }>`
-  background-color: ${(props) => (props.isSelected ? `#000` : '#fff')};
-  color: ${(props) =>
-    props.isSelected ? `${theme.color.pointColor}` : '#555'};
+  background-color: ${(props) =>
+    props.isSelected ? `${theme.color.pointColor}` : '#fff'};
+  color: ${(props) => (props.isSelected ? '#000' : '#555')};
+  border: 3px solid #fff;
   padding: 2%;
   font-size: 1.2em;
   font-weight: 700;
@@ -513,10 +520,15 @@ const GenderButton = styled.button<{ isSelected: boolean }>`
     border-color 0.3s ease;
 
   &:hover {
-    background-color: ${(props) =>
-      props.isSelected ? '#000000' : `${theme.color.pointColor}`};
-    color: ${(props) =>
-      props.isSelected ? `${theme.color.pointColor}` : '#000'};
+    border: 3px solid ${theme.color.pointColor};
+    /* border: ${(props) =>
+      props.isSelected
+        ? `1px solid ${theme.color.mainColor}`
+        : `1px solid ${theme.color.pointColor}`}; */
+    /* background-color: ${(props) =>
+      props.isSelected ? '#000000' : `${theme.color.pointColor}`}; */
+    /* color: ${(props) =>
+      props.isSelected ? `${theme.color.pointColor}` : '#000'}; */
   }
 `;
 // 로딩 메시지 스타일

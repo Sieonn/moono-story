@@ -49,6 +49,7 @@ export const Introduce = (props: any) => {
         });
     }
   }, [user]);
+  
 
   useEffect(() => {
     if (pageIndex >= 0) {

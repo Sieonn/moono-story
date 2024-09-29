@@ -113,7 +113,7 @@ export const StampPage = (props: any) => {
         </CoffeImgSection>
         <StampSection>
           <StampText>
-            <div style={{ fontSize: '1.2em' }}>
+            <div style={{ fontSize: '1.2em', fontWeight: '700' }}>
               미션을 완료하고 도장을 모아보세요.
             </div>
             <div style={{ fontSize: '0.8em', marginTop: '10px' }}>
@@ -148,17 +148,17 @@ export const StampPage = (props: any) => {
 };
 
 // 스타일 수정 부분
-const StyledContainer = styled(Container)`
+const StyledContainer = styled(Container)<{ isDarkMode: boolean }>`
   display: flex;
   flex-direction: column;
-  justify-content: flex-start;
   align-items: center;
-  background: linear-gradient(
-    180deg,
-    rgba(255, 255, 255, 1) 24%,
-    rgba(243, 224, 136, 1) 100%
-  );
-  padding-top: 60px; /* Header와 Contents 간의 간격을 유지 */
+  background-color: ${({ isDarkMode }) =>
+    isDarkMode ? '#20232a' : '#ffffff'} !important; // 검은색과 흰색으로 설정
+  background: ${({ isDarkMode }) =>
+    isDarkMode
+      ? 'linear-gradient(180deg, #1a1a1a16 24%, rgba(223, 23, 33, 0.43) 100%)' // 다크 모드 배경
+      : 'linear-gradient(180deg, rgba(255,212,93,0.42622986694677867) 24%, rgba(218,113,113,0.8379945728291316) 100%)'}; // 일반 모드 배경
+  overflow-y: auto;
 `;
 
 const StyledHeader = styled(Header)`
@@ -168,20 +168,12 @@ const StyledHeader = styled(Header)`
   font-size: 1.8em;
   background-color: ${theme.color.mainColor};
   color: white;
-  position: relative;
   z-index: 1;
 `;
 
 const StyledContents = styled(Contents)`
-  width: 100%;
-  /* padding-top: 20%; */
-  background: linear-gradient(
-    180deg,
-    rgba(255, 255, 255, 1) 24%,
-    rgba(243, 224, 136, 1) 100%
-  );
-  margin-top: 10%;
-  z-index: 0;
+  padding-top: 20%;
+  background-color: transparent; // 배경을 투명으로 설정
 `;
 
 const CoffeImgSection = styled.div`
@@ -190,22 +182,26 @@ const CoffeImgSection = styled.div`
   align-items: center;
   height: 50%;
   min-height: 350px;
+  margin-top: 15%;
+  margin-bottom: 5%;
 `;
 
 const CoffeText = styled.div`
-  font-size: 1.4em;
-  font-weight: 700;
+  font-size: 1.8em;
+  font-weight: 900;
   text-align: center;
   margin: 20px;
+  margin-bottom: 5%;
 `;
 
 const StampSection = styled.div`
   width: 100%;
   font-weight: 400;
   align-items: center;
-  height: 45%;
-  min-height: 310px;
-  /* margin-bottom: 10%; */
+  height: 100%;
+  /* min-height: 310px; */
+  margin-bottom: 0; // 여백 제거
+  padding-bottom: 5%; // 하단 패딩 제거
 `;
 
 const StampText = styled.div`
@@ -219,7 +215,7 @@ const StampArea = styled.div`
   flex-direction: column;
   align-items: center;
   margin: 0 auto;
-  padding: 5% 0 3% 0;
+  padding-top: 5%;
 `;
 
 const StampRow = styled.div`
@@ -235,4 +231,5 @@ const ApplyButton = styled.button`
   background-color: ${theme.color.mainColor};
   color: #fff;
   font-size: 1.4em;
+  margin-top: 0; // 상단 여백 제거
 `;

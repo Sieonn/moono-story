@@ -55,7 +55,7 @@ const GlobalStyle = createGlobalStyle`
   }
 
   * {
-  font-family: 'GmarketSansMedium';
+  font-family: 'Pretendard';
   }
 
   *:focus {
