@@ -7,19 +7,19 @@ import theme from 'styles/theme';
 import { useRecoilState } from 'recoil';
 import DarkModeIcon from '@mui/icons-material/DarkMode';
 import LightModeIcon from '@mui/icons-material/LightMode';
+import { modeAtom } from 'recoil/modeAtom';
 
 const Main = (props: any) => {
   const navigate = useNavigate();
+  const [darkMode, setDarkMode] = useRecoilState(modeAtom);
   const [user, setUser] = useRecoilState(userAtom);
   const popoverRef = useRef<HTMLDivElement | null>(null); // ref 생성
   const [isOpen, setIsOpen] = useState<boolean>(false);
-
-  console.log(user);
+  console.log(darkMode);
 
   const handleButtonClick = (id: string) => {
     navigate(`/contIntro/${id}`);
   };
-
   const hadleStampClick = () => {
     navigate('/stamp');
   };
@@ -30,18 +30,24 @@ const Main = (props: any) => {
 
   // 로그아웃 처리 함수
   const handleLogout = () => {
-    // 사용자 상태 초기화
-    setUser({
-      sub: '',
-      nickName: '',
-      oneMission: false,
-      twoMission: false,
-      threeMission: false,
-      fourMission: false,
-      fiveMission: false,
-    });
-    // 로그인 페이지로 이동
+    // // 사용자 상태 초기화
+    // setUser({
+    //   sub: '',
+    //   nickName: '',
+    //   oneMission: false,
+    //   twoMission: false,
+    //   threeMission: false,
+    //   fourMission: false,
+    //   fiveMission: false,
+    // });
+    // // 로그인 페이지로 이동
+    alert('로그아웃 되었습니다 !');
+    sessionStorage.clear();
     navigate('/login');
+  };
+
+  const handleModeChange = () => {
+    setDarkMode((prev) => !prev);
   };
 
   const handleClickOutside = (event: MouseEvent) => {
@@ -63,38 +69,59 @@ const Main = (props: any) => {
       document.removeEventListener('mousedown', handleClickOutside);
     };
   }, [isOpen]);
-
   return (
-    <Container style={{ padding: '15px', overflowY: 'scroll' }}>
+    <Container
+      style={{ padding: '15px', overflowY: 'scroll' }}
+      isDarkMode={darkMode}
+    >
       <HederStyled>
         <LogoStyled>MOOS</LogoStyled>
         <LogoRightSection>
-          <img
-            src={`${process.env.PUBLIC_URL}/images/main/stamp.png`}
-            alt="스탬프"
-            onClick={() => hadleStampClick()}
-            style={{ cursor: 'pointer', width: '25px', height: '25px' }}
-          />
+          {darkMode ? (
+            <img
+              src={`${process.env.PUBLIC_URL}/images/main/stampDark.png`}
+              alt="스탬프"
+              onClick={() => hadleStampClick()}
+              style={{ cursor: 'pointer', width: '25px', height: '25px' }}
+            />
+          ) : (
+            <img
+              src={`${process.env.PUBLIC_URL}/images/main/stampLight.png`}
+              alt="스탬프"
+              onClick={() => hadleStampClick()}
+              style={{ cursor: 'pointer', width: '25px', height: '25px' }}
+            />
+          )}
 
           {/* <img
             src={`${process.env.PUBLIC_URL}/images/main/bell.png`}
             alt="알람"
             style={{ cursor: 'pointer', width: '25px', height: '25px' }}
           /> */}
-          <DarkModeIcon
-            sx={{
-              cursor: 'pointer',
-              fontSize: '26px',
-              marginLeft: '10%',
-            }}
-          />
-          <LightModeIcon
-            sx={{
-              cursor: 'pointer',
-              fontSize: '26px',
-              marginLeft: '10%',
-            }}
-          />
+          {darkMode ? (
+            <LightModeIcon
+              sx={{
+                cursor: 'pointer',
+                fontSize: '26px',
+                marginLeft: '10%',
+              }}
+              onClick={() => {
+                handleModeChange();
+              }}
+            />
+          ) : (
+            <DarkModeIcon
+              sx={{
+                cursor: 'pointer',
+                fontSize: '26px',
+                marginLeft: '10%',
+              }}
+              onClick={() => {
+                handleModeChange();
+              }}
+            />
+          )}
+
           <img
             src={`${process.env.PUBLIC_URL}/images/main/user.png`}
             alt="사용자"
@@ -284,6 +311,7 @@ const Main = (props: any) => {
           <Menubutton
             onClick={() => handleButtonClick('fourcut')}
             style={{ textAlign: 'left' }}
+            bgImage=""
           >
             {' '}
             <div style={{}}>

@@ -8,6 +8,9 @@ import { useNavigate } from 'react-router-dom';
 import { IdDuplicateAPI } from 'api/IdDuplicatge';
 import { RegisterAPI } from 'api/RegisterAPI';
 import theme from 'styles/theme';
+import { modeAtom } from 'recoil/modeAtom';
+import { useRecoilState } from 'recoil';
+
 const RegisterPage = () => {
   const navigate = useNavigate();
   const [step, setStep] = useState(1);
@@ -16,6 +19,8 @@ const RegisterPage = () => {
     pwd: '',
     nickName: '',
   });
+
+  const [isDarkMode] = useRecoilState(modeAtom);
 
   console.log(registInfo);
 
@@ -61,7 +66,7 @@ const RegisterPage = () => {
   };
 
   return (
-    <Container style={{ paddingBottom: '120px' }}>
+    <Container style={{ paddingBottom: '120px' }} isDarkMode={isDarkMode}>
       <CheckArea>
         {step >= 2 && step < 4 && (
           <div

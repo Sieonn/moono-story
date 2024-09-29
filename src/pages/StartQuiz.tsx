@@ -2,10 +2,14 @@ import styled from 'styled-components';
 import Container from '../components/css/Container';
 import Header from '../components/form/Header';
 import Contents from '../components/css/Contents';
+import { modeAtom } from 'recoil/modeAtom';
+import { useRecoilValue } from 'recoil';
 
 const StartQuiz = () => {
+  const isDarkMode = useRecoilValue(modeAtom);
+
   return (
-    <Container>
+    <Container isDarkMode={isDarkMode}>
       <Toptext>
         <span style={{ fontSize: '16px', fontWeight: '200', margin: '20px 0' }}>
           내 <span style={{ color: '#9ffb4b' }}>이야기</span> 들어줄래?

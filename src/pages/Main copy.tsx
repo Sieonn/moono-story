@@ -61,7 +61,10 @@ const Main = (props: any) => {
   };
 
   return (
-    <Container style={{ padding: '15px', overflowY: 'scroll' }}>
+    <Container
+      style={{ padding: '15px', overflowY: 'scroll' }}
+      isDarkMode={false}
+    >
       <HederStyled>
         <LogoStyled>MOOS</LogoStyled>
         <LogoRightSection>

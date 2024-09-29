@@ -17,7 +17,7 @@ const Main2 = (props: any) => {
     navigate(`/contIntro/${id}`);
   };
   return (
-    <Container>
+    <Container isDarkMode={false}>
       {/* 첫 번째 섹션 */}
       <MainHeaderStyle>
         <Logo>
@@ -136,7 +136,7 @@ const GradientDiv = styled.div`
 `;
 const MenuContainer = styled.div`
   width: 100%;
-  height: 58fffffffffffffffffffffffffffffffffffff%;
+  height: 58%;
   display: flex;
   flex-direction: column;
 `;

@@ -2,10 +2,12 @@ import styled, { keyframes } from 'styled-components';
 import { useNavigate } from 'react-router-dom';
 import Container from '../components/css/Container';
 import theme from '../styles/theme';
+import { modeAtom } from 'recoil/modeAtom';
+import { useRecoilState } from 'recoil';
 
 const Intro = () => {
   const navigate = useNavigate();
-
+  const [isDarkMode] = useRecoilState(modeAtom);
   return (
     <Container
       style={{
@@ -14,6 +16,7 @@ const Intro = () => {
         color: '#fff',
         position: 'relative',
       }}
+      isDarkMode={isDarkMode}
     >
       <div
         style={{

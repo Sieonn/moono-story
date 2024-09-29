@@ -1,8 +1,7 @@
 import React from 'react';
-import Header from '../components/css/HeaderArea';
+import Header from '../components/form/Header';
 import Container from '../components/css/Container';
 import Contents from '../components/css/Contents';
-import ArrowBackIosNewSharpIcon from '@mui/icons-material/ArrowBackIosNewSharp';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import { Button } from '@mui/material';
@@ -15,6 +14,7 @@ import { useRecoilState } from 'recoil';
 import { userAtom } from 'recoil/userAtom';
 import { StampAPI } from 'api/StampAPI';
 import { UserInfoAPI } from 'api/UserInfoAPI';
+import { modeAtom } from 'recoil/modeAtom';
 
 const backgroundList = [
   {
@@ -85,6 +85,8 @@ const FourCutPage = () => {
     fiveMission: false,
   });
 
+  const [isDarkMode] = useRecoilState(modeAtom);
+
   useEffect(() => {
     if (user && user.sub) {
       // 유저 정보 API 호출
@@ -154,7 +156,7 @@ const FourCutPage = () => {
     StampAPI(stampStatus)
       .then((data) => {
         console.log('스템 API 호출 성공:', data);
-        alert('무너 소개 미션 완료 !');
+        alert('미션 완료 !');
         window.location.href = '/main';
       })
       .catch((error) => {
@@ -179,18 +181,13 @@ const FourCutPage = () => {
   };
 
   return (
-    <Container style={{ minWidth: '425px' }}>
-      <Header style={{ position: 'relative', height: '9vh' }}>
-        <ArrowBackIosNewSharpIcon
-          onClick={onBackBtn}
-          sx={{ fontSize: '16px', cursor: 'pointer' }}
-        />
-        <HeaderTitle>무생 네컷</HeaderTitle>
-      </Header>
-      <Contents style={{ display: 'inline-block', height: '91vh' }}>
+    <Container style={{ minWidth: '425px' }} isDarkMode={isDarkMode}>
+      <Header>{'무너만들기'}</Header>
+      <Contents>
+
         <div
           style={{
-            marginTop: '2vh',
+            // marginTop: '2vh',
             fontSize: '2.5vh',
             fontWeight: '600',
             textAlign: 'center',
@@ -294,21 +291,13 @@ const FourCutPage = () => {
 
 export default FourCutPage;
 
-const HeaderTitle = styled.span`
-  position: sticky;
-  left: 50%;
-  transform: translateX(-50%);
-  font-size: 2.3vh;
-  font-weight: 300;
-`;
-
 const InputArea = styled.div`
   width: 100%;
   text-align: center;
   display: flex;
   justify-content: center;
   align-items: center;
-  margin-top: 1.5vh;
+  /* margin-top: 1.5vh; */
 `;
 
 const AlbumArea = styled.div`
@@ -328,7 +317,9 @@ const TextRegistBtn = styled(Button)`
 `;
 
 const TextInput = styled(TextField)`
-  width: 320px;
+  width: 75%;
+
+  /* width: 320px; */
   & .MuiInputBase-root {
     height: 100%;
     border-radius: 7px 0px 0px 7px !important;

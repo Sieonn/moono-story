@@ -9,6 +9,8 @@ import useImage from 'use-image';
 import { saveAs } from 'file-saver';
 import { Stage, Layer, Text, Image as KonvaImage, Image } from 'react-konva';
 import Header from '../components/form/Header';
+import { modeAtom } from 'recoil/modeAtom';
+import { useRecoilState } from 'recoil';
 const choiceList = [
   '육지가 넘무너무 궁금해',
   '순탄한 인생 싫어! 신나는 일 없나?',
@@ -19,6 +21,7 @@ const PhotoPage = () => {
   const stageRef = useRef<any>(null);
   const [text, setText] = useState('');
   const [images, setImages] = useState<string[]>([]);
+  const [isDarkMode] = useRecoilState(modeAtom);
 
   // 이미지를 로드
   const [image] = useImage(
@@ -43,7 +46,7 @@ const PhotoPage = () => {
   };
 
   return (
-    <Container>
+    <Container isDarkMode={isDarkMode}>
       {/* <Header title="무너네컷">
         <ArrowBackIosRoundedIcon
           sx={{ fontSize: '5vw', position: 'absolute' }}

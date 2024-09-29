@@ -15,19 +15,15 @@ const IntroduceBtn: React.FC<IntroProps> = ({ children, onClick }) => {
 export default IntroduceBtn;
 
 const BtnStyle = styled.button`
-  width: 90%;
-  color: #fff;
+  display: flex;
+  width: 80%;
+  color: #121212;
   height: 10%;
+  align-items: center;
   max-height: 60px;
-  border-radius: 40px;
-  font-size: 1.4em;
-  font-weight: 700;
-  justify-content: flex-end;
+  font-size: 1.2em;
+  font-weight: 600;
   margin-bottom: 5%;
-  background-color: #969696;
-  text-align: center;
+  background: #fff;
   cursor: pointer; // 버튼에 마우스 커서 적용
-  &:hover {
-    background-color: ${theme.color.mainColor}; // hover 시 색상 변화 추가
-  }
 `;

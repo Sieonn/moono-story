@@ -6,6 +6,8 @@ import { useNavigate } from 'react-router-dom';
 import { loginAPI } from 'api/LoginAPI';
 import Container from '../components/css/Container';
 import theme from 'styles/theme';
+import { useRecoilState } from 'recoil';
+import { modeAtom } from 'recoil/modeAtom';
 
 const LoginPage = (props: any) => {
   const navigate = useNavigate();
@@ -13,6 +15,8 @@ const LoginPage = (props: any) => {
     id: '',
     pwd: '',
   });
+
+  const [isDarkMode] = useRecoilState(modeAtom);
 
   const onChangeInfo = (e: any) => {
     setInputInfo({ ...inputInfo, [e.target.name]: e.target.value });
@@ -34,10 +38,11 @@ const LoginPage = (props: any) => {
   };
 
   return (
-    <Container>
+    <Container isDarkMode={isDarkMode}>
       <TitleArea>
         <ColorSpan
           style={{
+            alignItems: 'center',
             fontSize: '0.6em',
             backgroundColor: `${theme.color.mainColor}`,
             color: '#fff',
@@ -65,7 +70,12 @@ const LoginPage = (props: any) => {
       <LoginBtn
         variant="contained"
         onClick={onClickLogin}
-        style={{ fontSize: '1.3em', fontWeight: '600', letterSpacing: 'px' }}
+        style={{
+          fontSize: '1.3em',
+          fontWeight: '600',
+          letterSpacing: 'px',
+          color: '#fff',
+        }}
       >
         로그인
       </LoginBtn>
@@ -96,6 +106,8 @@ const LoginPage = (props: any) => {
 export default LoginPage;
 
 const TitleArea = styled.div`
+  display: flex;
+  flex-direction: column;
   width: 350px;
   padding-left: 20px;
   margin-bottom: 20px;
