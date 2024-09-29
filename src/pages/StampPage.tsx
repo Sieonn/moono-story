@@ -87,8 +87,17 @@ export const StampPage = (props: any) => {
 
   return (
     <StyledContainer isDarkMode={isDarkMode}>
-      <StyledHeader>{'미션진행도'}</StyledHeader>
-      <StyledContents>
+      <StyledHeader
+        iconSrc={
+          isDarkMode
+            ? `${process.env.PUBLIC_URL}/images/header/whiteBack.png`
+            : `${process.env.PUBLIC_URL}/images/header/blackBack.png`
+        }
+        bgColor={isDarkMode ? '#20232a' : '#fff'}
+      >
+        {'미션진행도'}
+      </StyledHeader>
+      <StyledContents isDarkMode={isDarkMode}>
         <CoffeImgSection>
           <CoffeText>
             <div>

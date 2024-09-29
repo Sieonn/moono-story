@@ -132,12 +132,15 @@ const CheerUpPage: React.FC = () => {
       isDarkMode={isDarkMode}
     >
       <Header
-        bgColor="#121212"
         iconSrc={`${process.env.PUBLIC_URL}/images/header/whiteBack.png`}
+        bgColor={isDarkMode ? '#121212' : '#121212'}
       >
         {'무너 응원하기'}
       </Header>
-      <Contents style={{ backgroundColor: '#121212', color: '#fff' }}>
+      <Contents
+        isDarkMode={isDarkMode}
+        style={{ backgroundColor: '#121212', color: '#fff' }}
+      >
         <ImgArea>
           <img
             src={`${process.env.PUBLIC_URL}/images/cheerup/cheer.png`}

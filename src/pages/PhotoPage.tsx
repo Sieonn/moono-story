@@ -54,7 +54,7 @@ const PhotoPage = () => {
         <HeaderTitle>무너네컷</HeaderTitle>
       </Header> */}
 
-      <CustomContents>
+      <CustomContents isDarkMode={isDarkMode}>
         <TitleQuestion>
           Q. 무너가 <SpanColor>육지</SpanColor>로 가고 싶은 이유는?{' '}
           {/* 이미지 변경시 사용 */}

@@ -142,7 +142,7 @@ const Main = (props: any) => {
         </LogoRightSection>
       </HederStyled>
       <IntroMoo>
-        <IntroText style={{ fontFamily: 'Pretendard' }}>
+        <IntroText >
           <div style={{ color: `${theme.color.mainColor}` }}>
             용궁에서 찾아온 무너
           </div>

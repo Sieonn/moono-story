@@ -15,6 +15,7 @@ import { userAtom } from 'recoil/userAtom';
 import { StampAPI } from 'api/StampAPI';
 import { UserInfoAPI } from 'api/UserInfoAPI';
 import { modeAtom } from 'recoil/modeAtom';
+import theme from 'styles/theme';
 
 const backgroundList = [
   {
@@ -181,17 +182,28 @@ const FourCutPage = () => {
   };
 
   return (
-    <Container style={{ minWidth: '425px' }} isDarkMode={isDarkMode}>
-      <Header>{'무너만들기'}</Header>
-      <Contents>
-
+    <Container
+      style={{ minWidth: '425px', overflowY: 'auto' }}
+      isDarkMode={isDarkMode}
+    >
+      <Header
+        iconSrc={
+          isDarkMode
+            ? `${process.env.PUBLIC_URL}/images/header/whiteBack.png`
+            : `${process.env.PUBLIC_URL}/images/header/blackBack.png`
+        }
+        bgColor={isDarkMode ? '#20232a' : '#fff'}
+      >
+        {'무너만들기'}
+      </Header>
+      <Contents isDarkMode={isDarkMode} style={{ marginTop: '10%' }}>
         <div
           style={{
-            // marginTop: '2vh',
-            fontSize: '2.5vh',
-            fontWeight: '600',
+            marginTop: '13%',
+            fontSize: '24px',
+            // fontWeight: '600',
             textAlign: 'center',
-            marginBottom: '2vh',
+            marginBottom: '5%',
           }}
         >
           나만의 무너를 만들고 <br /> 자랑해 보세요!
@@ -228,6 +240,7 @@ const FourCutPage = () => {
                 draggable
                 onDragMove={handleTextDragMove}
                 onDragEnd={handleTextDragEnd}
+                fontFamily="establishRetrosansOTF"
               />
               <Image
                 image={mainImage}
@@ -241,7 +254,7 @@ const FourCutPage = () => {
           </Stage>
         </div>
         <InputArea>
-          <TextInput onChange={onChangeText} />
+          <TextInput onChange={onChangeText} isDarkMode={isDarkMode} />
           <TextRegistBtn variant="contained" onClick={saveImageFIle}>
             저장
           </TextRegistBtn>
@@ -297,7 +310,10 @@ const InputArea = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  /* margin-top: 1.5vh; */
+  margin-top: 3%;
+  &:focus {
+    outline: none;
+  }
 `;
 
 const AlbumArea = styled.div`
@@ -311,19 +327,37 @@ const AlbumArea = styled.div`
 const TextRegistBtn = styled(Button)`
   color: #fff !important;
   background-color: #c43232 !important;
-  width: 8vh;
-  height: 4vh;
+  width: 10%;
+  height: 100%;
   border-radius: 0px 7px 7px 0px !important;
 `;
 
-const TextInput = styled(TextField)`
+const TextInput = styled(TextField)<{ isDarkMode: boolean }>`
   width: 75%;
 
-  /* width: 320px; */
   & .MuiInputBase-root {
-    height: 100%;
-    border-radius: 7px 0px 0px 7px !important;
-    height: 4vh !important;
+    background-color: ${({ isDarkMode }) =>
+      isDarkMode ? '#333' : '#ffffffed'}; // 다크 모드 배경색
+    color: ${({ isDarkMode }) =>
+      isDarkMode ? '#fff' : '#000'}; // 다크 모드 텍스트 색
+    outline: none;
+    height: 5% !important;
+    border: none; // 기본 border 제거
+    border-radius: 7px 0px 0px 7px;
+    box-shadow: inset 0px -4px 3px ${({ isDarkMode }) => (isDarkMode ? 'rgba(32, 32, 32, 0.5)' : 'rgba(200, 200, 200, 0.5)')}; // 내부 쉐도우 추가
+
+    &:focus {
+      border: none; // 포커스 시에도 border 제거
+      box-shadow: inset 0 4px 8px
+        ${({ isDarkMode }) =>
+          isDarkMode
+            ? 'rgba(0, 0, 0, 0.7)'
+            : 'rgba(200, 200, 200, 0.7)'}; // 포커스 시 내부 쉐도우 강조
+    }
+  }
+
+  & .MuiOutlinedInput-notchedOutline {
+    border: none; // 기본 아웃라인 제거
   }
 `;
 

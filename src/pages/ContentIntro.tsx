@@ -5,7 +5,6 @@ import { useParams, useNavigate } from 'react-router-dom';
 import Header from '../components/form/Header';
 import { modeAtom } from '../recoil/modeAtom';
 import { useRecoilState } from 'recoil';
-
 export const ContentIntro = (props: any) => {
   const navigate = useNavigate();
   const { id } = useParams<{ id: string }>();
@@ -58,7 +57,16 @@ export const ContentIntro = (props: any) => {
   };
   return (
     <Container isDarkMode={isDarkMode}>
-      <Header>{''}</Header>
+      <Header
+        iconSrc={
+          isDarkMode
+            ? `${process.env.PUBLIC_URL}/images/header/whiteBack.png`
+            : `${process.env.PUBLIC_URL}/images/header/blackBack.png`
+        }
+        bgColor={isDarkMode ? '#20232a' : '#fff'}
+      >
+        {''}
+      </Header>
       <div
         style={{
           height: '100%',

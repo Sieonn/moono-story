@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 
-const Contents = styled.div`
+const Contents = styled.div<{ isDarkMode: any }>`
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -12,7 +12,8 @@ const Contents = styled.div`
   max-width: 480px; /* 모바일에서 최대 너비 고정 */
   margin: 0 auto;
   box-sizing: border-box;
-  background-color: #ffffff;
+  color: ${({ isDarkMode }) => (isDarkMode ? '#fff' : '#000')};
+  background-color: ${({ isDarkMode }) => (isDarkMode ? '#20232a' : '#ffffff')};
   /* overflow-y: scroll; */
 `;
 

@@ -201,15 +201,17 @@ const Fortune: React.FC = (props: any) => {
   if (isResultPage) {
     return (
       <Container isDarkMode={isDarkMode}>
-        <Header>{'오늘의 운세 결과'}</Header>
-        <Contents
-          style={{
-            background:
-              'linear-gradient(180deg, rgba(255,212,93,0.42622986694677867) 24%, rgba(218,113,113,0.8379945728291316) 100%)',
-            justifyContent: 'flex-end',
-            paddingBottom: '5%',
-          }}
+        <Header
+          iconSrc={
+            isDarkMode
+              ? `${process.env.PUBLIC_URL}/images/header/whiteBack.png`
+              : `${process.env.PUBLIC_URL}/images/header/blackBack.png`
+          }
+          bgColor={isDarkMode ? '#20232a' : '#fff'}
         >
+          {'오늘의 운세 결과'}
+        </Header>
+        <Contents2 isDarkMode={isDarkMode}>
           <div style={{ height: '600px', maxHeight: '78%' }}>
             <ResultCard>
               <InnerCard>
@@ -230,22 +232,24 @@ const Fortune: React.FC = (props: any) => {
             <ShareButton onClick={handleShare}>공유하기</ShareButton>
             <MainButton onClick={handleGoToMain}>메인으로 가기</MainButton>
           </ButtonContainer>
-        </Contents>
+        </Contents2>
       </Container>
     );
   }
 
   return (
     <Container isDarkMode={isDarkMode}>
-      <Header>{'오늘의 운세를 무너보살'}</Header>
-      <Contents
-        style={{
-          background:
-            'linear-gradient(180deg, rgba(255,212,93,0.42622986694677867) 24%, rgba(218,113,113,0.8379945728291316) 100%)',
-          justifyContent: 'flex-end',
-          paddingBottom: '5%',
-        }}
+      <Header
+        iconSrc={
+          isDarkMode
+            ? `${process.env.PUBLIC_URL}/images/header/whiteBack.png`
+            : `${process.env.PUBLIC_URL}/images/header/blackBack.png`
+        }
+        bgColor={isDarkMode ? '#20232a' : '#fff'}
       >
+        {'오늘의 운세를 무너보살'}
+      </Header>
+      <Contents2 isDarkMode={isDarkMode}>
         <ImgSection>
           {' '}
           <GlowingImage
@@ -305,27 +309,39 @@ const Fortune: React.FC = (props: any) => {
         ) : (
           <FortuneSubmit onClick={getFortune}>운세 보기</FortuneSubmit>
         )}
-      </Contents>
+      </Contents2>
     </Container>
   );
 };
 
 export default Fortune;
+const Contents2 = styled(Contents)<{ isDarkMode: boolean }>`
+  display: flex;
+  width: 100%;
+  height: 100%;
+  background: ${({ isDarkMode }) =>
+    isDarkMode
+      ? 'linear-gradient(180deg, #0d093dc5 34%, #ff91c11a 100%)' // 다크 모드 배경
+      : 'linear-gradient(180deg, rgba(255,212,93,0.42622986694677867) 24%, rgba(218,113,113,0.8379945728291316) 100%)'}; // 일반 모드 배경
+  justify-content: flex-end;
+  padding-bottom: 5%;
+`;
 
 // 빛이 퍼지는 애니메이션 정의
 const glowAnimation = keyframes`
   0% {
-    filter: drop-shadow(-20px 0px 30px rgba(255, 255, 255, 0.7)) 
-            drop-shadow(20px 0px 30px rgba(255, 255, 255, 0.7));
+    filter: drop-shadow(-20px 0px 30px rgba(255, 255, 255, 0.178))
+            drop-shadow(20px 0px 30px rgba(255, 255, 255, 0.178));
   }
   50% {
-    filter: drop-shadow(-50px 0px 40px rgba(128, 126, 255, 0.692)) 
-            drop-shadow(50px 0px 40px rgba(128, 126, 255, 0.692));
+    filter: drop-shadow(-45px 0px 50px rgba(128, 126, 255, 0.792)) 
+            drop-shadow(45px 0px 50px rgba(128, 126, 255, 0.792));
   }
   100% {
-    filter: drop-shadow(-20px 0px 30px rgba(255, 255, 255, 0.7)) 
-            drop-shadow(20px 0px 30px rgba(255, 255, 255, 0.7));
-  }`;
+    filter: drop-shadow(-20px 0px 30px rgba(255, 255, 255, 0.37)) 
+            drop-shadow(20px 0px 30px rgba(255, 255, 255, 0.37));
+  }
+`;
 const ImgSection = styled.div`
   display: flex;
   justify-content: center;
@@ -340,6 +356,7 @@ const GlowingImage = styled.img`
   width: 100%;
   position: relative;
   animation: ${glowAnimation} 4s infinite;
+
   margin: 5% 0;
   &::before {
     content: '';
@@ -348,7 +365,7 @@ const GlowingImage = styled.img`
     left: 50%;
     width: 100%;
     height: 100%;
-    background-color: rgb(255, 255, 255);
+    background-color: rgba(255, 255, 255, 0.356);
     border-radius: 50%;
     transform: translate(-50%, -50%);
     z-index: -1;

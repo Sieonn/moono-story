@@ -28,6 +28,18 @@ const GlobalStyle = createGlobalStyle`
     font-weight: normal;
     font-style: normal;
 }
+@font-face {
+    font-family: 'establishRetrosansOTF';
+    src: url('https://fastly.jsdelivr.net/gh/projectnoonnu/noonfonts_2112@1.0/establishRetrosansOTF.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+@font-face {
+    font-family: 'GmarketSansMedium';
+    src: url('https://fastly.jsdelivr.net/gh/projectnoonnu/noonfonts_2001@1.1/GmarketSansMedium.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
 
   body {
     margin: 0;
@@ -43,7 +55,7 @@ const GlobalStyle = createGlobalStyle`
   }
 
   * {
-
+  font-family: 'GmarketSansMedium';
   }
 
   *:focus {
