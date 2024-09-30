@@ -72,7 +72,7 @@ const FourCutPage = () => {
   const stageRef: any = useRef(null);
   const [imagePosition, setImagePosition] = useState({ x: 40, y: 15 });
   const [textPosition, setTextPosition] = useState({ x: 30, y: 20 });
-
+  const [fontSize, setFontSize] = useState(28);
   const [user, setUser] = useRecoilState(userAtom);
   const [stampStatus, setStampStatus] = useState({
     id: '',
@@ -170,6 +170,10 @@ const FourCutPage = () => {
   const onChangeText = (e: React.ChangeEvent<HTMLInputElement>) => {
     setText(e.target.value);
   };
+  // 텍스트 크기 조절 핸들러
+  const handleFontSizeChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setFontSize(parseInt(e.target.value, 10)); // 텍스트 크기 변경
+  };
 
   return (
     <Container
@@ -240,8 +244,7 @@ const FourCutPage = () => {
               <Text
                 text={text}
                 width={290}
-                fontSize={24}
-                fontStyle="bolder"
+                fontSize={fontSize}
                 x={textPosition.x}
                 y={textPosition.y}
                 wrap="word"
@@ -249,7 +252,7 @@ const FourCutPage = () => {
                 draggable
                 onDragMove={handleTextDragMove}
                 onDragEnd={handleTextDragEnd}
-                fontFamily="Pretendard"
+                fontFamily="Cafe24Ssurround"
               />
               <Image
                 image={mainImage}
@@ -263,9 +266,31 @@ const FourCutPage = () => {
           </Stage>
         </div>
         <div style={{ width: '100%' }}>
+          <InputContainer style={{ border: 'none' }}>
+            <div
+              style={{
+                display: 'flex',
+                whiteSpace: 'pre',
+                justifyContent: 'center',
+                alignItems: 'center',
+              }}
+            >
+              <label htmlFor="fontSize" style={{ width: '100%' }}>
+                텍스트 크기:{' '}
+              </label>
+              <InputStyled
+                type="range"
+                id="fontSize"
+                value={fontSize}
+                onChange={handleFontSizeChange} // 폰트 크기 변경
+                isDarkMode={isDarkMode}
+              />
+            </div>
+            <div></div>
+          </InputContainer>
           <InputContainer>
             <InputStyled onChange={onChangeText} isDarkMode={isDarkMode} />
-            <RegistBtn onClick={saveImageFIle}>저장</RegistBtn>
+            <RegistBtn onClick={saveImageFIle}>이미지 저장</RegistBtn>
           </InputContainer>
           <AlbumArea>
             <AlbumTitle>배경</AlbumTitle>
@@ -312,7 +337,7 @@ const FourCutPage = () => {
 };
 
 export default FourCutPage;
-const ImageInnerText = styled.text``;
+
 const AlbumArea = styled.div`
   display: flex;
   justify-content: center;
@@ -323,12 +348,14 @@ const AlbumArea = styled.div`
 `;
 const InputContainer = styled.div`
   width: 75%;
+  border: 1px solid #924949;
+  border-radius: 5px;
   text-align: center;
   display: flex;
   justify-content: center;
   align-items: center;
   margin: auto;
-  padding: 2%;
+  /* padding: 1%; */
   margin-top: 3%;
   &:focus {
     outline: none;
@@ -338,16 +365,18 @@ const InputStyled = styled.input<{ isDarkMode: boolean }>`
   margin: 0 auto;
   flex: 1;
   padding: 2%;
+  border: none;
 `;
 const RegistBtn = styled.button`
   color: #fff !important;
   background-color: ${theme.color.mainColor} !important;
-  width: 20%;
+  width: 25%;
   height: 100%;
-  border-radius: 0px 7px 7px 0px !important;
+  border-radius: 0px 4px 4px 0px !important;
+  /* border-radius: 5px !important; */
   z-index: 3;
   padding: 3%;
-  margin-right: 1px;
+  white-space: pre;
 `;
 
 const AlbumTitle = styled.div`

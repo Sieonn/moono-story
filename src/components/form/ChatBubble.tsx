@@ -21,7 +21,10 @@ const ChatBubble = forwardRef<HTMLDivElement, ChatBubbleProps>(
 
 const BubbleContainer = styled.div<{ isButton: boolean }>`
   padding: 10px;
-  border-radius: 2px 14px 14px 14px;
+  border-radius: ${({ isButton }) =>
+    isButton
+      ? '14px 2px 14px 14px'
+      : '2px 14px 14px 14px'};
   background-color: ${({ isButton }) =>
     isButton ? `${theme.color.pointColor}` : '#f1f1f1ce'};
   color: ${({ isButton }) => (isButton ? '#000' : '#000')};

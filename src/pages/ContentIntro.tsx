@@ -32,13 +32,13 @@ export const ContentIntro = (props: any) => {
   const getText = () => {
     switch (id) {
       case 'introduce':
-        return ['무너를 소개해줄게', '무너소개서', '나를 소개할게✋🏻'];
+        return ['무너를 소개해줄게', '무너톡', '나를 소개할게✋🏻'];
       case 'mooQuiz':
         return ['퀴즈를 풀어볼까?', '무 퀴즈~?!', 'MOO Quiz?'];
       case 'cheerup':
         return ['무너를 응원해줘!', '힘내 무너!', '힘내라힘!!!'];
       case 'fourcut':
-        return ['무너의 네컷 사진', '무너네컷', 'like 찰칵'];
+        return ['나만의 무너 짤방 만들기', '무너짤', 'like 찰칵'];
       case 'fortune':
         return [
           <div style={{ display: 'flex', flexDirection: 'column' }}>
@@ -49,7 +49,7 @@ export const ContentIntro = (props: any) => {
             </span>
           </div>,
           '무너보살',
-          '쫄??쫄??',
+          '두근두근',
         ];
       default:
         return ['', ''];

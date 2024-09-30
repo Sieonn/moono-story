@@ -38,7 +38,28 @@ export const Introduce = () => {
   const [isDarkMode] = useRecoilState(modeAtom);
   const [messages, setMessages] = useState<Message[]>([]);
   const chatContainerRef = useRef<HTMLDivElement | null>(null);
-
+  const imagesWithUrls = [
+    {
+      src: `${process.env.PUBLIC_URL}/images/intro/instagram.png`,
+      url: 'https://www.instagram.com/im_moono.41/',
+      name: '인스타',
+    },
+    {
+      src: `${process.env.PUBLIC_URL}/images/intro/web.png`,
+      url: 'https://namu.wiki/w/%EB%AC%B4%EB%84%88',
+      name: '나무위키',
+    },
+    {
+      src: `${process.env.PUBLIC_URL}/images/intro/uplus.png`,
+      url: 'https://www.lguplus.com/benefit/moono',
+      name: '유플러스',
+    },
+    {
+      src: `${process.env.PUBLIC_URL}/images/intro/moonostore.png`,
+      url: 'https://smartstore.naver.com/moonostore',
+      name: '무너스토어',
+    },
+  ];
   useEffect(() => {
     if (user && user.sub) {
       UserInfoAPI(user.sub)
@@ -138,6 +159,16 @@ export const Introduce = () => {
             </ImgSection>
           </ContentSection>
           <ChattingContainer ref={chatContainerRef}>
+            <div
+              style={{
+                fontSize: '0.7em',
+                textAlign: 'center',
+                margin: '0',
+                color: `${theme.color.mainColor}`,
+              }}
+            >
+              클릭으로 타이핑 스킵이 가능해요!
+            </div>
             <WelcomeMessage isDarkMode={isDarkMode}>
               채팅방에 입장하셨습니다.
             </WelcomeMessage>
@@ -181,19 +212,20 @@ export const Introduce = () => {
           </ChattingContainer>
         </StyledContents>
       ) : (
-        <StyledContents isDarkMode={isDarkMode}>
+        <StyledContents isDarkMode={isDarkMode} style={{ minHeight: '930px' }}>
           <div
             style={{
               width: '100%',
               height: '100%',
+              minHeight: '300px',
               display: 'flex',
               flexDirection: 'column',
               justifyContent: 'center',
-              marginTop: '17%',
+              // marginTop: '10%',
             }}
           >
             <ContentSection style={{ textAlign: 'center' }}>
-              <ImgSection>
+              <ImgSection style={{ minHeight: '400px' }}>
                 <SemiTitle>SKILL</SemiTitle>
                 <img
                   src={
@@ -212,13 +244,42 @@ export const Introduce = () => {
                 <img src={`${process.env.PUBLIC_URL}/images/intro/alien.png`} />
                 무너의 MBTI는 ENTJ이다
               </TMISTtyle>
-              <ImgSection style={{ margin: 'auto' }}>
+              <ImgSection style={{ margin: 'auto', flexDirection: 'row' }}>
                 <img
                   src={`${process.env.PUBLIC_URL}/images/intro/moo3.png`}
                   style={{ width: '170px' }}
                 />
               </ImgSection>
             </ContentSection>
+            <URLImg>
+              {/* <img
+                src={`${process.env.PUBLIC_URL}/images/intro/instagram.png`}
+                style={{ width: '35px' }} 
+              />
+              <img src={`${process.env.PUBLIC_URL}/images/intro/web.png`} />
+              <img src={`${process.env.PUBLIC_URL}/images/intro/uplus.png`} />
+              <img
+                src={`${process.env.PUBLIC_URL}/images/intro/moonostore.png`}
+              /> */}
+              {imagesWithUrls.map((img, idx) => (
+                <a
+                  key={idx}
+                  href={img.url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  style={{ textDecoration: 'none', color: 'inherit' }}
+                >
+                  <img
+                    src={img.src}
+                    alt=""
+                    style={{ width: '35px', cursor: 'pointer' }} // 커서 포인터로 변경
+                  />
+                  <div style={{ fontSize: '10px', textAlign: 'center' }}>
+                    {img.name}
+                  </div>
+                </a>
+              ))}
+            </URLImg>
           </div>
           <GoTMI onClick={goToMain} style={{ marginBottom: '20px' }}>
             미션 완료
@@ -240,7 +301,19 @@ const WelcomeMessage = styled.div<{ isDarkMode: boolean }>`
   background-color: #e4e4e465;
   border-radius: 10px;
 `;
+const URLImg = styled.div`
+  display: flex;
+  margin: auto;
+  align-items: center;
+  /* min-height: 80px; */
 
+  img {
+    width: 40px;
+    height: 40px;
+    margin: 10px;
+    cursor: pointer;
+  }
+`;
 const ContentSection = styled.div`
   display: flex;
   flex-direction: column;
@@ -261,7 +334,7 @@ const ImgSection = styled.div`
   }
   display: flex;
   flex-direction: column;
-  margin: 0 auto;
+  margin: 10px auto;
   align-items: center;
 `;
 

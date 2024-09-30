@@ -22,26 +22,24 @@ export const StampPage = (props: any) => {
     fiveMission: false,
   });
   const [isDarkMode] = useRecoilState(modeAtom);
-
   const [loading, setLoading] = useState(true);
+
   useEffect(() => {
     const getData = async () => {
       if (user?.sub) {
         try {
           const data = await UserInfoAPI(user.sub);
           setStampStatus(data);
-          setLoading(false); // 데이터 로딩 완료
+          setLoading(false);
         } catch (error) {
           console.error('데이터 가져오기 실패:', error);
-          setLoading(false); // 에러 발생 시에도 로딩을 멈춤
+          setLoading(false);
         }
       }
     };
     getData();
   }, [user]);
 
-  console.log(stampStatus);
-  // 스탬프 상태 관리
   const [stamps, setStamps] = useState([
     { id: 1, title: '무너 소개', completed: true },
     { id: 2, title: '무퀴즈', completed: true },
@@ -63,12 +61,22 @@ export const StampPage = (props: any) => {
   // 미션 완료 함수
   const completeMission = (id: number) => {
     setStamps(
-      stamps.map((stamp: any) =>
+      stamps.map((stamp) =>
         stamp.id === id ? { ...stamp, completed: true } : stamp
       )
     );
   };
 
+  // 모든 미션이 완료되었는지 확인하는 함수
+  const allMissionsCompleted = () => {
+    return stamps.every((stamp) => stamp.completed);
+  };
+  const handleApplyClick = () => {
+    if (allMissionsCompleted()) {
+      // 모든 미션이 완료된 경우에만 이동
+      window.location.href = 'https://naver.me/5iTtQt3t';
+    }
+  };
   if (loading) {
     return (
       <div
@@ -82,7 +90,7 @@ export const StampPage = (props: any) => {
       >
         안녕 난 로딩 중...
       </div>
-    ); // 로딩 상태를 표시
+    );
   }
 
   return (
@@ -141,7 +149,12 @@ export const StampPage = (props: any) => {
             </StampRow>
           </StampArea>
         </StampSection>
-        <ApplyButton onClick={() => completeMission(1)}>응모하기</ApplyButton>
+        <ApplyButton
+          onClick={handleApplyClick}
+          disabled={!allMissionsCompleted()}
+        >
+          응모하기
+        </ApplyButton>
       </StyledContents>
     </StyledContainer>
   );
@@ -153,12 +166,12 @@ const StyledContainer = styled(Container)<{ isDarkMode: boolean }>`
   flex-direction: column;
   align-items: center;
   background-color: ${({ isDarkMode }) =>
-    isDarkMode ? '#20232a' : '#ffffff'} !important; // 검은색과 흰색으로 설정
+    isDarkMode ? '#20232a' : '#ffffff'} !important;
   background: ${({ isDarkMode }) =>
     isDarkMode
-      ? 'linear-gradient(180deg, #1a1a1a16 24%, rgba(223, 23, 33, 0.43) 100%)' // 다크 모드 배경
-      : 'linear-gradient(180deg, rgba(255,212,93,0.42622986694677867) 24%, rgba(218,113,113,0.8379945728291316) 100%)'}; // 일반 모드 배경
-  overflow-y: auto;
+      ? 'linear-gradient(180deg, #1a1a1a16 24%, rgba(223, 23, 33, 0.43) 100%)'
+      : 'linear-gradient(180deg, rgba(255,212,93,0.42622986694677867) 24%, rgba(218,113,113,0.8379945728291316) 100%)'};
+  min-height: 900px;
 `;
 
 const StyledHeader = styled(Header)`
@@ -173,7 +186,7 @@ const StyledHeader = styled(Header)`
 
 const StyledContents = styled(Contents)`
   padding-top: 20%;
-  background-color: transparent; // 배경을 투명으로 설정
+  background-color: transparent;
 `;
 
 const CoffeImgSection = styled.div`
@@ -182,7 +195,7 @@ const CoffeImgSection = styled.div`
   align-items: center;
   height: 50%;
   min-height: 350px;
-  margin-top: 15%;
+  margin-top: 5%;
   margin-bottom: 5%;
 `;
 
@@ -199,9 +212,8 @@ const StampSection = styled.div`
   font-weight: 400;
   align-items: center;
   height: 100%;
-  /* min-height: 310px; */
-  margin-bottom: 0; // 여백 제거
-  padding-bottom: 5%; // 하단 패딩 제거
+  margin-bottom: 0;
+  padding-bottom: 5%;
 `;
 
 const StampText = styled.div`
@@ -224,12 +236,15 @@ const StampRow = styled.div`
   margin-bottom: 7px;
 `;
 
-const ApplyButton = styled.button`
+const ApplyButton = styled.button<{ disabled: boolean }>`
   width: 100%;
   height: 10%;
-  min-height: 60px;
-  background-color: ${theme.color.mainColor};
+  min-height: 70px;
+  background-color: ${({ disabled }) =>
+    disabled ? '#ccc' : theme.color.mainColor};
   color: #fff;
   font-size: 1.4em;
-  margin-top: 0; // 상단 여백 제거
+  margin-top: 0;
+  cursor: ${({ disabled }) =>
+    disabled ? 'not-allowed' : 'pointer'}; // 커서 스타일 변경
 `;

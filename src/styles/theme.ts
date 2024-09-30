@@ -14,11 +14,8 @@ const theme = {
     deepgreen: '#b3b3b3',
     logogreen: '#009b3d',
     primary: '#e947ae',
-    // mainColor: '#f8e077', //'#E42727',
-    mainColor: '#ea3636', //'#E42727',
+    mainColor: '#ea3636', 
     pointColor: '#f8e077',
-    // pointColor: '#D60078',
-    // pointColor: '#ea3636',
   },
 };
 export default theme;

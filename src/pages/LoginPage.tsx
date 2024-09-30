@@ -133,8 +133,7 @@ const TitleArea = styled.div`
 const ColorSpan = styled.span`
   // Login 페이지 글자 색 바꾸는 용도
   font-size: 1.1em;
-  /* color: #fff; */
-  font-weight: 900;
+  font-weight: 700;
 `;
 
 const FootArea = styled.div`

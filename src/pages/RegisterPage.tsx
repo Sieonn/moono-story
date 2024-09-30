@@ -10,7 +10,9 @@ import { RegisterAPI } from 'api/RegisterAPI';
 import theme from 'styles/theme';
 import { modeAtom } from 'recoil/modeAtom';
 import { useRecoilState } from 'recoil';
+import Header from '../components/form/Header';
 import { colors } from '@mui/material';
+
 
 const RegisterPage = () => {
   const navigate = useNavigate();
@@ -67,6 +69,16 @@ const RegisterPage = () => {
   };
   return (
     <Container style={{ paddingBottom: '120px' }} isDarkMode={isDarkMode}>
+      <Header
+        iconSrc={
+          isDarkMode
+            ? `${process.env.PUBLIC_URL}/images/header/whiteBack.png`
+            : `${process.env.PUBLIC_URL}/images/header/blackBack.png`
+        }
+        bgColor={isDarkMode ? '#20232a' : '#fff'}
+      >
+        {''}
+      </Header>
       <CheckArea>
         {step >= 2 && step < 4 && (
           <div
@@ -172,9 +184,20 @@ const RegisterPage = () => {
       {step === 4 && (
         <>
           <StepFourInfo>
-            회원가입완료 👍🏻 <br />
+            <div
+              style={{
+                textAlign: 'center',
+                fontSize: '1.4em',
+                fontWeight: '700',
+              }}
+            >
+              회원가입 완료👍🏻
+            </div>
             <span style={{ color: '${theme.color.mainColor}' }}>
-              무너의 이야기를
+              <span style={{ color: `${theme.color.mainColor}` }}>
+                무너의 이야기
+              </span>
+              를
             </span>{' '}
             들어 볼까요?!
           </StepFourInfo>
@@ -187,7 +210,7 @@ const RegisterPage = () => {
               letterSpacing: '3px',
             }}
           >
-            확인
+            시작하기
           </LoginBtn>
         </>
       )}
@@ -210,7 +233,7 @@ const CheckArea = styled.div`
   height: 120px;
   justify-content: center;
   flex-direction: column;
-  width: 350px;
+  width: 70%;
   margin-bottom: 10px;
 `;
 
@@ -221,9 +244,10 @@ const CheckInfo = styled.div`
 `;
 
 const StepFourInfo = styled.div`
-  font-size: 1.3em;
+  font-size: 1.2em;
   font-weight: 600;
-  margin-bottom: 60px;
+  margin-bottom: 20px;
+  line-height: 1.3;
 `;
 
 const CustomInput = styled(RegistInput)(({ theme, isDarkMode }) => ({
