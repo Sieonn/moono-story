@@ -16,7 +16,6 @@ const Main = (props: any) => {
   const popoverRef = useRef<HTMLDivElement | null>(null); // ref 생성
   const [isOpen, setIsOpen] = useState<boolean>(false);
 
-
   const handleButtonClick = (id: string) => {
     navigate(`/contIntro/${id}`);
   };
@@ -128,7 +127,13 @@ const Main = (props: any) => {
               <PopoverContent>
                 <div style={{ textAlign: 'center', color: 'black' }}>
                   <div style={{ marginBottom: '10px' }}>반가워요</div>
-                  <div style={{ fontSize: '1.4em', marginBottom: '10px' }}>
+                  <div
+                    style={{
+                      fontSize: '1.4em',
+                      marginBottom: '10px',
+                      fontWeight: '900',
+                    }}
+                  >
                     {user.nickName}님
                   </div>
                 </div>

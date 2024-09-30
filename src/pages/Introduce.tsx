@@ -1,5 +1,5 @@
-import { useState, useEffect } from 'react';
-import styled, { keyframes } from 'styled-components';
+import { useState, useEffect, useRef } from 'react';
+import styled from 'styled-components';
 import Container from '../components/css/Container';
 import Header from '../components/form/Header';
 import Contents from '../components/css/Contents';
@@ -12,12 +12,20 @@ import { useRecoilState } from 'recoil';
 import { UserInfoAPI } from '../api/UserInfoAPI';
 import { StampAPI } from 'api/StampAPI';
 import { modeAtom } from 'recoil/modeAtom';
+import ChatBubble from '../components/form/ChatBubble';
 
-export const Introduce = (props: any) => {
+interface Message {
+  text: string;
+  isButton: boolean;
+}
+
+export const Introduce = () => {
   const [pageIndex, setPageIndex] = useState<number>(0);
   const [currentData, setCurrentData] = useState(data[pageIndex]);
   const [isDataLoaded, setIsDataLoaded] = useState<boolean>(false);
   const [user, setUser] = useRecoilState(userAtom);
+  const [isTypingComplete, setIsTypingComplete] = useState<boolean>(false);
+  const messageRefs = useRef<(HTMLDivElement | null)[]>([]);
   const [stampStatus, setStampStatus] = useState({
     id: '',
     nickName: '',
@@ -27,8 +35,9 @@ export const Introduce = (props: any) => {
     fourMission: false,
     fiveMission: false,
   });
-
-  const [isDarkMode] = useRecoilState(modeAtom); // 다크모드 상태
+  const [isDarkMode] = useRecoilState(modeAtom);
+  const [messages, setMessages] = useState<Message[]>([]);
+  const chatContainerRef = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
     if (user && user.sub) {
@@ -44,12 +53,9 @@ export const Introduce = (props: any) => {
             fiveMission: data.fiveMission,
           });
         })
-        .catch((error) => {
-          console.error('유저 정보 API 호출 실패:', error);
-        });
+        .catch((error) => console.error('유저 정보 API 호출 실패:', error));
     }
   }, [user]);
-  
 
   useEffect(() => {
     if (pageIndex >= 0) {
@@ -65,20 +71,30 @@ export const Introduce = (props: any) => {
 
   const handleNextPage = () => {
     if (pageIndex < data.length - 1) {
+      setMessages((prevMessages) => [
+        ...prevMessages,
+        { text: displayedText, isButton: false },
+        { text: currentData.buttonText, isButton: true },
+      ]);
       setPageIndex(pageIndex + 1);
       setIsDataLoaded(false);
+      setIsTypingComplete(false);
     } else {
       setPageIndex(-1);
     }
   };
 
   useEffect(() => {
+    if (displayedText && displayedText === currentData.text) {
+      setIsTypingComplete(true);
+    }
+  }, [displayedText, currentData.text]);
+
+  useEffect(() => {
     const handleGlobalClick = () => {
       handleClick();
     };
-
     document.addEventListener('click', handleGlobalClick);
-
     return () => {
       document.removeEventListener('click', handleGlobalClick);
     };
@@ -86,15 +102,21 @@ export const Introduce = (props: any) => {
 
   const goToMain = () => {
     StampAPI(stampStatus)
-      .then((data) => {
-        console.log('스템 API 호출 성공:', data);
+      .then(() => {
         alert('무너 소개 미션 완료 !');
         window.location.href = '/main';
       })
-      .catch((error) => {
-        console.error('스템 API 호출 실패:', error);
-      });
+      .catch((error) => console.error('스템 API 호출 실패:', error));
   };
+
+  // 메시지나 타이핑되는 텍스트가 변경될 때마다 자동 스크롤
+  useEffect(() => {
+    if (chatContainerRef.current) {
+      chatContainerRef.current.scrollTop =
+        chatContainerRef.current.scrollHeight;
+    }
+  }, [messages, displayedText]); // messages와 displayedText가 변경될 때마다 스크롤
+
   return (
     <Container isDarkMode={isDarkMode}>
       <Header
@@ -110,23 +132,53 @@ export const Introduce = (props: any) => {
 
       {pageIndex >= 0 ? (
         <StyledContents isDarkMode={isDarkMode}>
-          <ContentSection style={{ height: '70%' }}>
-            <TextSection style={{ whiteSpace: 'pre-wrap' }}>
-              {displayedText && <span>{displayedText}</span>}{' '}
-              {/* 타이핑된 텍스트 */}
-            </TextSection>
+          <ContentSection style={{ height: '50%' }}>
             <ImgSection>
               <img src={currentData.img} alt="무너 이미지" />
             </ImgSection>
           </ContentSection>
-          {pageIndex != 5 ? (
-            <IntroduceBtn onClick={handleNextPage} isDarkMode={isDarkMode}>
-              <Triangle />
-              {currentData.buttonText} {/* 버튼 텍스트 */}
-            </IntroduceBtn>
-          ) : (
-            <GoTMI onClick={handleNextPage}>TMI보러가기</GoTMI>
-          )}
+          <ChattingContainer ref={chatContainerRef}>
+            <WelcomeMessage isDarkMode={isDarkMode}>
+              채팅방에 입장하셨습니다.
+            </WelcomeMessage>
+            {messages.map((message, index) => (
+              <ChatBubble
+                key={index}
+                isButton={message.isButton}
+                ref={(el) => (messageRefs.current[index] = el)}
+                tabIndex={0}
+              >
+                {message.text}
+              </ChatBubble>
+            ))}
+            {isDataLoaded && (
+              <ChatBubble
+                isButton={false}
+                ref={(el) => (messageRefs.current[messages.length] = el)}
+                tabIndex={0}
+              >
+                {displayedText}
+              </ChatBubble>
+            )}
+            {pageIndex !== 5 ? (
+              <IntroduceBtn
+                onClick={handleNextPage}
+                isDarkMode={isDarkMode}
+                disabled={!isTypingComplete}
+              >
+                {currentData.buttonText}
+              </IntroduceBtn>
+            ) : (
+              <InputContainer2 isDarkMode={isDarkMode}>
+                <GoTMI
+                  onClick={handleNextPage}
+                  style={{ marginBottom: '20px' }}
+                >
+                  TMI 보러가기
+                </GoTMI>
+              </InputContainer2>
+            )}
+          </ChattingContainer>
         </StyledContents>
       ) : (
         <StyledContents isDarkMode={isDarkMode}>
@@ -141,39 +193,31 @@ export const Introduce = (props: any) => {
             }}
           >
             <ContentSection style={{ textAlign: 'center' }}>
-              <ContentsStyle>
-                <ImgSection>
-                  <SemiTitle>SKILL</SemiTitle>
-                  <img
-                    src={
-                      isDarkMode
-                        ? `${process.env.PUBLIC_URL}/images/intro/DarkModeSkill.png`
-                        : `${process.env.PUBLIC_URL}/images/intro/무너능력.png`
-                    }
-                    alt="무너 능력치"
-                  />
-                </ImgSection>
-                <SkillText isDarkMode={isDarkMode}>
-                  인내심 말고는 못하는게 없는 <br />
-                  <span style={{ fontSize: '0.7em' }}>(거의)</span> 꽉 찬 오각형
-                </SkillText>
-              </ContentsStyle>
-              <ContentsStyle>
-                <TMIStyle isDarkMode={isDarkMode}>
-                  <img
-                    src={`${process.env.PUBLIC_URL}/images/intro/alien.png`}
-                  />
-                  무너의 MBTI는 ENTJ이다.
-                </TMIStyle>
-                <ImgSection style={{ margin: 'auto' }}>
-                  <img
-                    src={`${process.env.PUBLIC_URL}/images/intro/moo3.png`}
-                    style={{
-                      width: '170px',
-                    }}
-                  />
-                </ImgSection>
-              </ContentsStyle>
+              <ImgSection>
+                <SemiTitle>SKILL</SemiTitle>
+                <img
+                  src={
+                    isDarkMode
+                      ? `${process.env.PUBLIC_URL}/images/intro/DarkModeSkill.png`
+                      : `${process.env.PUBLIC_URL}/images/intro/무너능력.png`
+                  }
+                  alt="무너 능력치"
+                />
+              </ImgSection>
+              <SkillText isDarkMode={isDarkMode}>
+                인내심 말고는 못하는게 없는 <br />
+                <span style={{ fontSize: '0.7em' }}>(거의)</span> 꽉 찬 오각형
+              </SkillText>
+              <TMISTtyle isDarkMode={isDarkMode}>
+                <img src={`${process.env.PUBLIC_URL}/images/intro/alien.png`} />
+                무너의 MBTI는 ENTJ이다
+              </TMISTtyle>
+              <ImgSection style={{ margin: 'auto' }}>
+                <img
+                  src={`${process.env.PUBLIC_URL}/images/intro/moo3.png`}
+                  style={{ width: '170px' }}
+                />
+              </ImgSection>
             </ContentSection>
           </div>
           <GoTMI onClick={goToMain} style={{ marginBottom: '20px' }}>
@@ -185,81 +229,93 @@ export const Introduce = (props: any) => {
   );
 };
 
-// 스타일 정의
+const WelcomeMessage = styled.div<{ isDarkMode: boolean }>`
+  margin: 0 auto;
+  width: 50%;
+  text-align: center;
+  padding: 10px 0;
+  font-size: 10px;
+  color: ${({ isDarkMode }) => (isDarkMode ? '#fff' : '#000')};
+  margin-bottom: 10px;
+  background-color: #e4e4e465;
+  border-radius: 10px;
+`;
+
 const ContentSection = styled.div`
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  justify-content: flex-end;
   align-items: center;
 `;
 
 const StyledContents = styled(Contents)`
-  /* display: flex; */
-
   align-items: center;
   justify-content: center;
-  /* margin-top: 15%; */
-`;
-
-const TextSection = styled.div`
-  height: 80px;
-  font-size: 1.2em;
-  font-weight: 600;
-  text-align: center;
-  /* margin-bottom: 10%; */
-  line-height: 1.5;
 `;
 
 const ImgSection = styled.div`
-  /* width: 100%; */
   img {
-    width: 290px;
-    max-width: 90%;
+    width: 90%;
+    max-width: 250px;
     height: auto;
-    margin: 5% 0;
   }
   display: flex;
-  margin: 0 auto;
-  justify-content: center;
-  align-items: center;
   flex-direction: column;
+  margin: 0 auto;
+  align-items: center;
 `;
 
 const SemiTitle = styled.div`
   font-size: 1em;
   text-align: center;
-  display: flex;
   font-family: 'RixInooAriDuriR';
   font-weight: 900;
   color: #fff;
   background-color: ${theme.color.mainColor};
   margin: auto;
+  margin-bottom: 10%;
   padding: 5px 10px;
   border-radius: 20px;
 `;
 
-const ContentsStyle = styled.div`
-  display: flex;
-  flex-direction: column;
-  margin-bottom: 3%;
+const SkillText = styled.div<{ isDarkMode: boolean }>`
   width: 80%;
-  font-weight: 400;
-  line-height: 1.3;
-  font-size: 12px;
-`;
-
-const SkillText = styled.div<{ isDarkMode: any }>`
-  width: 100%;
   margin: auto;
   color: ${({ isDarkMode }) => (isDarkMode ? '#000' : '#000')};
   background-color: ${({ isDarkMode }) => (isDarkMode ? '#fff' : '#f3f3f3')};
-  border-radius: 0 20px 0 20px;
-  padding: 6% 0;
+  border-radius: 0 30px 0 30px;
+  padding: 5% 0;
   text-align: center;
-  margin: 3% auto 0%;
+  margin: 5% auto;
 `;
 
-const TMIStyle = styled.div<{ isDarkMode: any }>`
+const ChattingContainer = styled.div`
+  width: 80%;
+  height: 600px;
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  gap: 10px;
+  overflow-y: auto;
+  margin-bottom: 20%;
+  &::-webkit-scrollbar {
+    display: none;
+  }
+`;
+const InputContainer2 = styled.div<{ isDarkMode: boolean }>`
+  position: absolute; //화면 하단에 고정
+  z-index: 2;
+  bottom: 0;
+  left: 50%; // 가운데 정렬을 위한 시작점
+  transform: translateX(-50%); //가운데 정렬
+  width: 100%;
+  max-width: 430px; /* 부모 요소의 max-width와 동일하게 설정 */
+  padding: 12px 8px;
+  display: flex;
+  justify-content: center;
+`;
+
+const TMISTtyle = styled.div<{ isDarkMode: boolean }>`
   display: flex;
   text-align: center;
   color: #6d6d6d;
@@ -272,32 +328,17 @@ const TMIStyle = styled.div<{ isDarkMode: any }>`
     margin-right: 5px;
   }
 `;
-
-const Blink = keyframes`
-  0%, 50%, 100% {
-    opacity: 1;
-  }
-  25%, 75% {
-    opacity: 0;
-  }
-`;
-
-const Triangle = styled.div`
-  width: 0;
-  height: 0;
-  margin-right: 15px;
-  border-style: solid;
-  border-width: 6px 0px 6px 12px;
-  border-color: transparent transparent transparent ${theme.color.mainColor};
-  animation: ${Blink} 2.5s infinite;
-`;
-
 const GoTMI = styled.button`
-  width: 85%;
-  font-weight: 500;
-  font-size: 1.4em;
+  width: 90%;
+  padding: 3%;
+  max-width: 430px;
+  font-weight: 400;
+  font-size: 1.2em;
   background-color: ${theme.color.mainColor};
   color: #fff;
-  padding: 3%;
   border-radius: 10px;
+  margin: auto;
+  align-items: center;
 `;
+
+export default Introduce;

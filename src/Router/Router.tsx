@@ -5,17 +5,13 @@ import LoginPage from 'pages/LoginPage';
 import ProtectedRoute from './ProtectedRoute';
 import RegisterPage from 'pages/RegisterPage';
 import Main from 'pages/Main';
-import PhotoPage from 'pages/PhotoPage';
-// import { Fortune } from 'pages/Fortune';
 import Fortune from 'pages/Fortune';
 import MooQuiz from 'pages/MooQuiz';
-import StartQuiz from 'pages/StartQuiz';
 import { ContentIntro } from 'pages/ContentIntro';
 import { StampPage } from 'pages/StampPage';
 import CheerUpPage from 'pages/CheerUpPage';
 import FourCutPage from 'pages/FourCutPage';
 import KonvaTextOnImage from '../components/KonvaTextOnImage';
-import Horoscope from 'pages/Fortune';
 import { Introduce } from 'pages/Introduce';
 const Router = () => {
   return (

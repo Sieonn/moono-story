@@ -134,7 +134,7 @@ const Fortune: React.FC = (props: any) => {
           messages: [
             {
               role: 'user',
-              content: `성별은 ${gender}이고, 생년월일은 ${birthdate}, 오늘은 ${currentDate}인데,입력받은 생년월일 기반으로 오늘의 운세 결과를 솔직하게 반말로 출력. 운세 다음 줄바꿈하고 행운 점수 100점 만점기준으로 표시`,
+              content: `성별은 ${gender}이고, 생년월일은 ${birthdate}, 오늘은 ${currentDate}인데,입력받은 생년월일 기반으로 오늘의 운세 결과를 솔직하게 반말로 출력하는데 일관된 같은 값을 입력했을 때 일관된 답변을 줬으면 좋겠어. 운세 다음 줄바꿈하고 행운 점수 100점 만점기준으로 표시`,
             },
           ],
           max_tokens: 180,
@@ -406,7 +406,7 @@ const FortuneSubmit = styled.button`
   color: ${theme.color.mainColor};
   background-color: #fff;
   font-size: 1.4em;
-  font-weight: 900;
+  font-weight: 700;
   padding: 3%;
   border-radius: 10px;
   margin: 0 auto;
@@ -474,7 +474,7 @@ const ShareButton = styled.button`
 `;
 
 const MainButton = styled.button`
-  font-weight: 900;
+  font-weight: 600;
   background-color: #e74c3c; /* 빨간색 배경 */
   color: white;
   font-size: 1.2em;

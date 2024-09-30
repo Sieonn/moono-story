@@ -10,6 +10,7 @@ import { RegisterAPI } from 'api/RegisterAPI';
 import theme from 'styles/theme';
 import { modeAtom } from 'recoil/modeAtom';
 import { useRecoilState } from 'recoil';
+import { colors } from '@mui/material';
 
 const RegisterPage = () => {
   const navigate = useNavigate();
@@ -64,7 +65,6 @@ const RegisterPage = () => {
       alert('아이디 중복입니다. 다시 시도해주세요.');
     }
   };
-
   return (
     <Container style={{ paddingBottom: '120px' }} isDarkMode={isDarkMode}>
       <CheckArea>
@@ -122,13 +122,16 @@ const RegisterPage = () => {
       {step === 1 && (
         <>
           <TitleArea>아이디를 입력해주세요.</TitleArea>
-          <RegistInput
+          <CustomInput
             label="아이디"
             variant="standard"
             name="id"
             value={registInfo.id}
             onChange={handleChange}
-            sx={{ marginBottom: '20px' }}
+            sx={{
+              marginBottom: '20px',
+            }}
+            isDarkMode={isDarkMode}
           />
           <LoginBtn onClick={idCheck}>확인</LoginBtn>
         </>
@@ -137,7 +140,7 @@ const RegisterPage = () => {
       {step === 2 && (
         <>
           <TitleArea>비밀번호를 입력해주세요.</TitleArea>
-          <RegistInput
+          <CustomInput
             label="비밀번호"
             variant="standard"
             name="pwd"
@@ -145,6 +148,7 @@ const RegisterPage = () => {
             value={registInfo.pwd}
             onChange={handleChange}
             sx={{ marginBottom: '20px' }}
+            isDarkMode={isDarkMode}
           />
           <LoginBtn onClick={nextStep}>확인</LoginBtn>
         </>
@@ -153,13 +157,14 @@ const RegisterPage = () => {
       {step === 3 && (
         <>
           <TitleArea>닉네임을 입력해주세요.</TitleArea>
-          <RegistInput
+          <CustomInput
             label="닉네임"
             variant="standard"
             name="nickName"
             value={registInfo.nickName}
             onChange={handleChange}
             sx={{ marginBottom: '20px' }}
+            isDarkMode={isDarkMode}
           />
           <LoginBtn onClick={onRegistClick}>가입 완료</LoginBtn>
         </>
@@ -220,3 +225,9 @@ const StepFourInfo = styled.div`
   font-weight: 600;
   margin-bottom: 60px;
 `;
+
+const CustomInput = styled(RegistInput)(({ theme, isDarkMode }) => ({
+  '& .MuiInputBase-input': {
+    color: isDarkMode ? '#fff' : '#000', // 텍스트 색상 변경
+  },
+}));

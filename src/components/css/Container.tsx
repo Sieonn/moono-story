@@ -17,6 +17,9 @@ const Container = styled.div<{ isDarkMode: any }>`
   &::-webkit-scrollbar {
     display: none; /* Chrome, Safari, Opera에서 스크롤바 숨기기 */
   }
+  &::placeholder {
+    color: ${({ isDarkMode }) => (isDarkMode ? '#fff' : '#000')};
+  }
 `;
 
 export default Container;

@@ -4,8 +4,7 @@ import Container from '../components/css/Container';
 import Contents from '../components/css/Contents';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
-import { Button } from '@mui/material';
-import { TextField } from '@mui/material';
+import { Button, TextField } from '@mui/material';
 import { useState, useRef, useEffect } from 'react';
 import { Stage, Layer, Text, Image, Rect } from 'react-konva';
 import useImage from 'use-image';
@@ -70,10 +69,9 @@ const FourCutPage = () => {
   const [currentChar, setCurrentChar] = useState(0);
   const [text, setText] = useState('');
   const [mainImage] = useImage(mainChar[currentChar]);
-  // Konva zone startLine
   const stageRef: any = useRef(null);
-  const [imagePosition, setImagePosition] = useState({ x: 70, y: 20 });
-  const [textPosition, setTextPosition] = useState({ x: 50, y: 20 });
+  const [imagePosition, setImagePosition] = useState({ x: 40, y: 15 });
+  const [textPosition, setTextPosition] = useState({ x: 30, y: 20 });
 
   const [user, setUser] = useRecoilState(userAtom);
   const [stampStatus, setStampStatus] = useState({
@@ -90,7 +88,6 @@ const FourCutPage = () => {
 
   useEffect(() => {
     if (user && user.sub) {
-      // 유저 정보 API 호출
       UserInfoAPI(user.sub)
         .then((data) => {
           setStampStatus({
@@ -124,10 +121,6 @@ const FourCutPage = () => {
   };
 
   const handleTextDragEnd = (e: any) => {
-    console.log('Image position after drag:', {
-      x: e.target.x(),
-      y: e.target.y(),
-    });
     let newX = e.target.x();
     let newY = e.target.y();
     if (newX < -223) newX = -56;
@@ -141,19 +134,16 @@ const FourCutPage = () => {
   const handleImageDragEnd = (e: any) => {
     let newX = e.target.x();
     let newY = e.target.y();
-
-    // 화면 경계에 맞춰 위치를 제한하는 로직
     if (newX < -223) newX = -56;
     if (newY < -223) newY = -24;
     if (newX > 358) newX = 182;
     if (newY > 250) newY = 52;
     setImagePosition({ x: newX, y: newY });
   };
-  // 이미지 저장 겸 스탬프 저장하는 함수 있는 함수
+
   const saveImageFIle = () => {
-    const uri = stageRef.current.toDataURL(); // Stage에서 데이터 URL 생성
+    const uri = stageRef.current.toDataURL();
     saveAs(uri, 'moono_image.png');
-    // 스템 API 호출
     StampAPI(stampStatus)
       .then((data) => {
         console.log('스템 API 호출 성공:', data);
@@ -165,7 +155,6 @@ const FourCutPage = () => {
       });
   };
 
-  // Konva zone endLine
   const onBackBtn = () => {
     navigate('/main');
   };
@@ -173,6 +162,7 @@ const FourCutPage = () => {
   const onClickImgBg = (e: any) => {
     setCurrentBg(e.target.getAttribute('data-name'));
   };
+
   const onClickImgChar = (e: any) => {
     setCurrentChar(e.target.getAttribute('data-name'));
   };
@@ -183,8 +173,12 @@ const FourCutPage = () => {
 
   return (
     <Container
-      style={{ minWidth: '425px', overflowY: 'auto', height: '100%' }}
       isDarkMode={isDarkMode}
+      style={{
+        display: 'flex',
+        flexDirection: 'column',
+        minHeight: '820px',
+      }}
     >
       <Header
         iconSrc={
@@ -196,32 +190,46 @@ const FourCutPage = () => {
       >
         {'무너만들기'}
       </Header>
-      <Contents isDarkMode={isDarkMode} style={{ marginTop: '10%' }}>
+      <Contents
+        isDarkMode={isDarkMode}
+        style={{ flex: 1, paddingTop: '20%', justifyContent: 'flex-start' }}
+      >
         <div
           style={{
-            marginTop: '13%',
-            fontSize: '24px',
-            // fontWeight: '600',
+            fontSize: '1.2em',
+            fontWeight: '700',
             textAlign: 'center',
             marginBottom: '5%',
+            lineHeight: '1.5',
           }}
         >
-          나만의 무너를 만들고 <br /> 자랑해 보세요!
+          <span
+            style={{ color: `${theme.color.mainColor}`, fontWeight: '600' }}
+          >
+            나만의 무너
+          </span>
+          를 만들고 자랑하기
+          <div style={{ fontSize: '0.6em', fontWeight: '400' }}>
+            자유롭게 이동시켜서 저장해보세요
+          </div>
         </div>
         <div
           style={{
             display: 'flex',
             justifyContent: 'center',
             alignItems: 'center',
+            border: `10px solid ${theme.color.mainColor}`,
+            width: '87%',
+            maxWidth: '340px',
           }}
         >
-          <Stage width={420} height={280} ref={stageRef}>
+          <Stage width={340} height={260} ref={stageRef}>
             <Layer>
               <Rect
-                width={420}
-                height={280}
+                width={340}
+                height={360}
                 fillLinearGradientStartPoint={{ x: 0, y: 0 }}
-                fillLinearGradientEndPoint={{ x: 0, y: 280 }}
+                fillLinearGradientEndPoint={{ x: 0, y: 360 }}
                 fillLinearGradientColorStops={[
                   0.17,
                   mainImg[currentBg],
@@ -231,16 +239,17 @@ const FourCutPage = () => {
               />
               <Text
                 text={text}
-                width={340}
+                width={290}
                 fontSize={24}
+                fontStyle="bolder"
                 x={textPosition.x}
                 y={textPosition.y}
                 wrap="word"
-                fill="black" // 텍스트 색상
+                fill="black"
                 draggable
                 onDragMove={handleTextDragMove}
                 onDragEnd={handleTextDragEnd}
-                fontFamily="establishRetrosansOTF"
+                fontFamily="Pretendard"
               />
               <Image
                 image={mainImage}
@@ -253,122 +262,103 @@ const FourCutPage = () => {
             </Layer>
           </Stage>
         </div>
-        <InputArea>
-          <TextInput onChange={onChangeText} isDarkMode={isDarkMode} />
-          <TextRegistBtn variant="contained" onClick={saveImageFIle}>
-            저장
-          </TextRegistBtn>
-        </InputArea>
-        <AlbumArea>
-          <AlbumTitle>배경</AlbumTitle>
-          <AlbumImgListArea>
-            {backgroundList.map((img, idx) => (
-              <img
-                key={idx}
-                src={img.address}
-                alt=""
-                style={{
-                  cursor: 'pointer',
-                  width: '92.5px',
-                  height: '10.5vh',
-                }}
-                data-name={img.name}
-                onClick={onClickImgBg}
-              />
-            ))}
-          </AlbumImgListArea>
-        </AlbumArea>
-        <AlbumArea>
-          <AlbumTitle>캐릭터</AlbumTitle>
-          <AlbumImgListArea>
-            {charList.map((img, idx) => (
-              <img
-                key={idx}
-                src={img.address}
-                alt=""
-                style={{
-                  cursor: 'pointer',
-                  width: '92.5px',
-                  height: '10.5vh',
-                }}
-                data-name={img.name}
-                onClick={onClickImgChar}
-              />
-            ))}
-          </AlbumImgListArea>
-        </AlbumArea>
+        <div style={{ width: '100%' }}>
+          <InputContainer>
+            <InputStyled onChange={onChangeText} isDarkMode={isDarkMode} />
+            <RegistBtn onClick={saveImageFIle}>저장</RegistBtn>
+          </InputContainer>
+          <AlbumArea>
+            <AlbumTitle>배경</AlbumTitle>
+            <AlbumImgListArea>
+              {backgroundList.map((img, idx) => (
+                <img
+                  key={idx}
+                  src={img.address}
+                  alt=""
+                  style={{
+                    cursor: 'pointer',
+                    width: '92.5px',
+                    height: '10.5vh',
+                  }}
+                  data-name={img.name}
+                  onClick={onClickImgBg}
+                />
+              ))}
+            </AlbumImgListArea>
+          </AlbumArea>
+          <AlbumArea>
+            <AlbumTitle>캐릭터</AlbumTitle>
+            <AlbumImgListArea style={{ marginBottom: '3%' }}>
+              {charList.map((img, idx) => (
+                <img
+                  key={idx}
+                  src={img.address}
+                  alt=""
+                  style={{
+                    cursor: 'pointer',
+                    width: '92.5px',
+                    height: '10.5vh',
+                  }}
+                  data-name={img.name}
+                  onClick={onClickImgChar}
+                />
+              ))}
+            </AlbumImgListArea>
+          </AlbumArea>
+        </div>
       </Contents>
     </Container>
   );
 };
 
 export default FourCutPage;
-
-const InputArea = styled.div`
-  width: 100%;
-  text-align: center;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  margin-top: 3%;
-  &:focus {
-    outline: none;
-  }
-`;
-
+const ImageInnerText = styled.text``;
 const AlbumArea = styled.div`
   display: flex;
   justify-content: center;
   margin: 0 auto;
   flex-direction: column;
-  margin-top: 2vh;
+  margin-top: 3%;
+  width: 90%;
 `;
-
-const TextRegistBtn = styled(Button)`
+const InputContainer = styled.div`
+  width: 75%;
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: auto;
+  padding: 2%;
+  margin-top: 3%;
+  &:focus {
+    outline: none;
+  }
+`;
+const InputStyled = styled.input<{ isDarkMode: boolean }>`
+  margin: 0 auto;
+  flex: 1;
+  padding: 2%;
+`;
+const RegistBtn = styled.button`
   color: #fff !important;
-  background-color: #c43232 !important;
-  width: 10%;
+  background-color: ${theme.color.mainColor} !important;
+  width: 20%;
   height: 100%;
   border-radius: 0px 7px 7px 0px !important;
-`;
-
-const TextInput = styled(TextField)<{ isDarkMode: boolean }>`
-  width: 75%;
-
-  & .MuiInputBase-root {
-    background-color: ${({ isDarkMode }) =>
-      isDarkMode ? '#333' : '#ffffffed'}; // 다크 모드 배경색
-    color: ${({ isDarkMode }) =>
-      isDarkMode ? '#fff' : '#000'}; // 다크 모드 텍스트 색
-    outline: none;
-    height: 5% !important;
-    border: none; // 기본 border 제거
-    border-radius: 7px 0px 0px 7px;
-    box-shadow: inset 0px -4px 3px ${({ isDarkMode }) => (isDarkMode ? 'rgba(32, 32, 32, 0.5)' : 'rgba(200, 200, 200, 0.5)')}; // 내부 쉐도우 추가
-
-    &:focus {
-      border: none; // 포커스 시에도 border 제거
-      box-shadow: inset 0 4px 8px
-        ${({ isDarkMode }) =>
-          isDarkMode
-            ? 'rgba(0, 0, 0, 0.7)'
-            : 'rgba(200, 200, 200, 0.7)'}; // 포커스 시 내부 쉐도우 강조
-    }
-  }
-
-  & .MuiOutlinedInput-notchedOutline {
-    border: none; // 기본 아웃라인 제거
-  }
+  z-index: 3;
+  padding: 3%;
+  margin-right: 1px;
 `;
 
 const AlbumTitle = styled.div`
-  width: 80vw;
-  max-width: 350px;
-  font-size: 1.6vh;
-  font-weight: 300;
-  color: #6b6b6b;
-  border-bottom: 1px solid #c7c7c7;
-  padding: 1vh;
+  width: 90%;
+  height: auto;
+  align-items: center;
+  font-size: 1em;
+  font-weight: 400;
+  /* color: #000000; */
+  border-bottom: 2px solid #dfdfdf;
+  padding: 2%;
   margin: 0 auto;
   margin-bottom: 1vh;
 `;
@@ -376,7 +366,8 @@ const AlbumTitle = styled.div`
 const AlbumImgListArea = styled.div`
   display: flex;
   justify-content: center;
-  width: 35vh;
-  gap: 1vh;
-  margin: 0 auto;
+  /* width: 35vh; */
+  width: 90%;
+  gap: 1%;
+  margin: 2% auto 0 auto;
 `;

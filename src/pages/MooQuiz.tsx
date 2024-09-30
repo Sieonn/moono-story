@@ -19,6 +19,7 @@ const MooQuiz = () => {
   const [showResult, setShowResult] = useState(false); // 결과 화면 여부
   const quiz = QuizData.quiz;
   const [isDarkMode] = useRecoilState(modeAtom);
+  const DarkMode = localStorage.getItem('darkMode');
 
   const [user, setUser] = useRecoilState(userAtom);
   const [stampStatus, setStampStatus] = useState({

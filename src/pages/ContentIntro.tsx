@@ -5,11 +5,14 @@ import { useParams, useNavigate } from 'react-router-dom';
 import Header from '../components/form/Header';
 import { modeAtom } from '../recoil/modeAtom';
 import { useRecoilState } from 'recoil';
+import { useEffect, useState } from 'react';
+
 export const ContentIntro = (props: any) => {
   const navigate = useNavigate();
   const { id } = useParams<{ id: string }>();
   const [isDarkMode] = useRecoilState(modeAtom);
-
+  const DarkMode = localStorage.getItem('darkMode') === 'true';
+  console.log(typeof DarkMode);
   // id에 따라 이미지 경로를 변경
   const getImageSrc = () => {
     switch (id) {
@@ -56,14 +59,14 @@ export const ContentIntro = (props: any) => {
     navigate(`/${id}`);
   };
   return (
-    <Container isDarkMode={isDarkMode}>
+    <Container isDarkMode={DarkMode}>
       <Header
         iconSrc={
-          isDarkMode
+          DarkMode
             ? `${process.env.PUBLIC_URL}/images/header/whiteBack.png`
             : `${process.env.PUBLIC_URL}/images/header/blackBack.png`
         }
-        bgColor={isDarkMode ? '#20232a' : '#fff'}
+        bgColor={DarkMode ? '#20232a' : '#fff'}
       >
         {''}
       </Header>
@@ -127,7 +130,7 @@ const ContentButtonStyle = styled.button`
   margin: 0 auto;
   justify-content: center;
   align-items: center;
-  font-weight: 900;
+  font-weight: 600;
   font-size: 1.5em;
   top: 10%;
 `;

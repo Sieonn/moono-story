@@ -34,6 +34,7 @@ const HeaderStyle = styled.div<{ bgColor: string }>`
   left: 50%; /* 화면의 50% 위치 */
   transform: translateX(-50%); /* 자신의 너비의 절반만큼 왼쪽으로 이동 */
   display: flex;
+  z-index: 1;
   align-items: center;
   width: 100%;
   height: 10%;
