@@ -33,13 +33,11 @@ const CheerUpPage: React.FC = () => {
     title: user.nickName,
   });
   const [refresh, setRefresh] = useState(false);
-  const lastMessageRef = useRef<HTMLDivElement | null>(null); // 마지막 메시지에 대한 Ref
+  const lastMessageRef = useRef<HTMLDivElement | null>(null);
   const [isDarkMode] = useRecoilState(modeAtom);
 
   useEffect(() => {
-    console.log('나 실행되고 있니 ..?');
     if (user && user.sub) {
-      // 유저 정보 API 호출
       UserInfoAPI(user.sub)
         .then((data) => {
           setStampStatus({
@@ -57,12 +55,11 @@ const CheerUpPage: React.FC = () => {
         });
     }
   }, [st]);
+
   useEffect(() => {
-    // 스템 API 호출
     if (st) {
       StampAPI(stampStatus)
         .then((data) => {
-          console.log('스템 API 호출 성공:', data);
           alert('무너응원하기 미션 완료 !');
         })
         .catch((error) => {
@@ -70,7 +67,7 @@ const CheerUpPage: React.FC = () => {
         });
     }
   }, [st]);
-  console.log(stampStatus);
+
   useEffect(() => {
     if (user && user.nickName) {
       setPostText({
@@ -90,11 +87,10 @@ const CheerUpPage: React.FC = () => {
   }, [refresh]);
 
   useEffect(() => {
-    // 메시지가 업데이트될 때마다 스크롤을 마지막 메시지로 이동
     if (lastMessageRef.current) {
       lastMessageRef.current.scrollIntoView({ behavior: 'smooth' });
     }
-  }, [textList]); // textList가 업데이트될 때 실행
+  }, [textList]);
 
   const onChangeText = (e: React.ChangeEvent<HTMLInputElement>) => {
     setPostText({
@@ -145,7 +141,7 @@ const CheerUpPage: React.FC = () => {
           <img
             src={`${process.env.PUBLIC_URL}/images/cheerup/cheer.png`}
             alt="무퀴즈"
-            style={{ width: '100%' }} // 이미지 크기 조정
+            style={{ width: '100%' }}
           />
         </ImgArea>
         <div
@@ -174,14 +170,7 @@ const CheerUpPage: React.FC = () => {
                 </span>
               </span>
               {data.userId === user.sub && (
-                <span>
-                  <InputBtn
-                    onClick={() => onClickDeleteBtn(data.postId)}
-                    style={{ fontSize: '10px' }}
-                  >
-                    삭제
-                  </InputBtn>
-                </span>
+                <TrashButton onClick={() => onClickDeleteBtn(data.postId)} />
               )}
             </TextLine>
           ))}
@@ -192,6 +181,23 @@ const CheerUpPage: React.FC = () => {
         </InputArea>
       </Contents>
     </Container>
+  );
+};
+
+const TrashButton: React.FC<{ onClick: () => void }> = ({ onClick }) => {
+  const [isHovered, setIsHovered] = useState(false);
+
+  return (
+    <InputBtn
+      onMouseEnter={() => setIsHovered(true)}
+      onMouseLeave={() => setIsHovered(false)}
+      onClick={onClick}
+    >
+      <img
+        src={`${process.env.PUBLIC_URL}/images/cheerup/${isHovered ? 'trash2.png' : 'trash.png'}`}
+        alt="Delete"
+      />
+    </InputBtn>
   );
 };
 
@@ -219,18 +225,12 @@ const InputArea = styled.div`
   margin-bottom: 20px;
 `;
 
-const InputBtn = styled.button`
-  background-color: #ea3636;
-  color: #ffffff;
+const InputBtn = styled.div`
   cursor: pointer;
-  border: none;
   padding: 5px 10px;
   margin-left: 10px;
-  border-radius: 5px;
-
-  &:hover {
-    background-color: #fff;
-    color: #000;
+  img {
+    width: 12px;
   }
 `;
 

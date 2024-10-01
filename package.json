@@ -17,6 +17,7 @@
     "@types/react-router-dom": "^5.3.3",
     "axios": "^1.7.7",
     "file-saver": "^2.0.5",
+    "html2canvas": "^1.4.1",
     "konva": "^9.3.14",
     "nth-check": "^2.1.1",
     "openai": "^4.64.0",

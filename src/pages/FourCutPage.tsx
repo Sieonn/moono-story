@@ -303,7 +303,7 @@ const FourCutPage = () => {
                   style={{
                     cursor: 'pointer',
                     width: '92.5px',
-                    height: '10.5vh',
+                    height: '11vh',
                   }}
                   data-name={img.name}
                   onClick={onClickImgBg}
@@ -322,7 +322,7 @@ const FourCutPage = () => {
                   style={{
                     cursor: 'pointer',
                     width: '92.5px',
-                    height: '10.5vh',
+                    height: '11vh',
                   }}
                   data-name={img.name}
                   onClick={onClickImgChar}
