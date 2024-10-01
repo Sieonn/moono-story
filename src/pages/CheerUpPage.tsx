@@ -175,10 +175,20 @@ const CheerUpPage: React.FC = () => {
             </TextLine>
           ))}
         </BoardArea>
-        <InputArea style={{ color: '#fff' }}>
+        <InputArea2>
           <BoardInput onChange={onChangeText} value={postText.content} />
-          <InputBtn onClick={onClickInputBtn}>입력</InputBtn>
-        </InputArea>
+          <InputBtn
+            onClick={onClickInputBtn}
+            style={{
+              backgroundColor: `${theme.color.mainColor}`,
+              borderRadius: '5px',
+              textAlign: 'center',
+              lineHeight: '1.3',
+            }}
+          >
+            입력
+          </InputBtn>
+        </InputArea2>
       </Contents>
     </Container>
   );
@@ -224,8 +234,11 @@ const InputArea = styled.div`
   display: flex;
   margin-bottom: 20px;
 `;
-
+const InputArea2 = styled(InputArea)``;
 const InputBtn = styled.div`
+  /* color: #fff;
+            borderColor: ${theme.color.mainColor};
+            borderRadius: 15px; */
   cursor: pointer;
   padding: 5px 10px;
   margin-left: 10px;
