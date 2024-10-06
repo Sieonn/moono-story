@@ -5,6 +5,7 @@ const apiUrl = process.env.REACT_APP_API_URL;
 export const RegisterAPI = async (userInfo: object) => {
   console.log(apiUrl);
   try {
+    // const response = await axios.post(`${apiUrl}/api/user/register`, userInfo, {
     const response = await axios.post(`${apiUrl}/api/user/register`, userInfo, {
       withCredentials: true,
     });
