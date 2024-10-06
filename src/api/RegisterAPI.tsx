@@ -4,6 +4,8 @@ const apiUrl = process.env.REACT_APP_API_URL;
 // 로그인 API 함수
 export const RegisterAPI = async (userInfo: object) => {
   console.log(apiUrl);
+  console.log(userInfo);
+
   try {
     // const response = await axios.post(`${apiUrl}/api/user/register`, userInfo, {
     const response = await axios.post(`${apiUrl}/api/user/register`, userInfo, {
