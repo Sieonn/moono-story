@@ -6,6 +6,7 @@ export const IdDuplicateAPI = async (userInfo: { id: string }) => {
   try {
     const response = await axios.get(`${apiUrl}/api/user/check-id`, {
       params: { id: userInfo.id }, // 쿼리 스트링으로 아이디 전달
+      withCredentials: true,
     });
     return response.data; // 성공 시 데이터 반환
   } catch (error) {
