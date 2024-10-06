@@ -7,12 +7,11 @@ export const RegisterAPI = async (userInfo: object) => {
   console.log(userInfo);
 
   try {
+    console.log(apiUrl);
+
     // const response = await axios.post(`${apiUrl}/api/user/register`, userInfo, {
     const response = await axios.post(`${apiUrl}/api/user/register`, userInfo, {
       withCredentials: true,
-      headers: {
-        'Content-Type': 'application/json',
-      },
     });
     return response.data; // 로그인 성공 시 데이터 반환
   } catch (error) {
