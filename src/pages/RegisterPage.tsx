@@ -13,7 +13,6 @@ import { useRecoilState } from 'recoil';
 import Header from '../components/form/Header';
 import { colors } from '@mui/material';
 
-
 const RegisterPage = () => {
   const navigate = useNavigate();
   const [step, setStep] = useState(1);
@@ -24,7 +23,6 @@ const RegisterPage = () => {
   });
 
   const [isDarkMode] = useRecoilState(modeAtom);
-
 
   // 입력값 핸들러
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -232,7 +230,8 @@ const CheckArea = styled.div`
   height: 120px;
   justify-content: center;
   flex-direction: column;
-  width: 70%;
+  width: 350px;
+  padding-left: 20px;
   margin-bottom: 10px;
 `;
 
