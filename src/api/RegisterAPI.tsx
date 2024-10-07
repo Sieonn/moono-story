@@ -12,11 +12,12 @@ export const RegisterAPI = async (userInfo: object) => {
 
     // const response = await axios.post(`${apiUrl}/api/user/register`, userInfo, {
     const response = await axios.post(`${apiUrl}/api/user/register`, userInfo, {
-      withCredentials: false,
+      withCredentials: true,
       headers: {
         'Content-Type': 'application/json', // JSON 형식으로 전송
       },
     });
+
     return response.data; // 로그인 성공 시 데이터 반환
   } catch (error) {
     console.error('로그인 실패:', error);
