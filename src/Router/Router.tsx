@@ -26,6 +26,9 @@ const Router = () => {
         <Route path="/cheerup" element={<CheerUpPage />} />
         <Route path="/stamp" element={<StampPage />} /> */}
 
+        <Route element={<ProtectedRoute />}>
+          <Route path="/a" element={<KonvaTextOnImage />} />
+          {/* 로그인이 필요한 라우트 같은 경우에는 아래에 작성. */}
         <Route path="/main" element={<Main />} />
         <Route path="/contIntro/:id" element={<ContentIntro />} />
         <Route path="/cheerup" element={<CheerUpPage />} />
@@ -34,9 +37,6 @@ const Router = () => {
         <Route path="/introduce" element={<Introduce />} />
         <Route path="/mooQuiz" element={<MooQuiz />} />
         <Route path="/fortune" element={<Fortune />} />
-        <Route element={<ProtectedRoute />}>
-          <Route path="/a" element={<KonvaTextOnImage />} />
-          {/* 로그인이 필요한 라우트 같은 경우에는 아래에 작성. */}
         </Route>
       </Routes>
     </BrowserRouter>
