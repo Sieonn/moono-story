@@ -21,13 +21,13 @@
     "konva": "^9.3.14",
     "nth-check": "^2.1.1",
     "openai": "^4.64.0",
-    "path-to-regexp": "^8.2.0",
+    "path-to-regexp": "^7.2.0",
     "postcss": "^8.4.45",
     "react": "^17.0.0||18.3.1",
     "react-dom": "^17.0.0||18.3.1",
     "react-konva": "^18.2.10",
     "react-router-dom": "^6.26.2",
-    "react-scripts": "^3.0.1",
+    "react-scripts": "5.0.1",
     "react-youtube": "^10.1.0",
     "recoil": "^0.7.7",
     "styled-component": "^2.8.0",
@@ -44,8 +44,10 @@
     "eject": "react-scripts eject"
   },
   "eslintConfig": {
-    "extends": 
-      "react-app"
+    "extends": [
+      "react-app",
+      "react-app/jest"
+    ]
   },
   "browserslist": {
     "production": [
@@ -69,7 +71,6 @@
     "@types/styled-components": "^5.1.34",
     "eslint": "^8.57.0",
     "eslint-config-prettier": "^9.1.0",
-    "eslint-config-react-app": "^7.0.1",
     "eslint-plugin-prettier": "^5.2.1",
     "eslint-plugin-react": "^7.35.2",
     "globals": "^15.9.0",
