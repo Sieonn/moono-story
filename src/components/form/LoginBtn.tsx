@@ -15,5 +15,5 @@ const Btn = styled(Button)`
   font-family: 'Pretendard';
   font-size: 1.3rem !important;
   letter-spacing: 3px !important;
-  font-weight: 700 !important;
+  font-weight: 600 !important;
 `;
