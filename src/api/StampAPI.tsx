@@ -7,10 +7,7 @@ export const StampAPI = async (missionInfo: object) => {
   try {
     const response = await axios.put(
       `${apiUrl}/api/user/update-mission`,
-      missionInfo,
-      {
-        withCredentials: true,
-      }
+      missionInfo
     );
     return response.data;
   } catch (error) {
