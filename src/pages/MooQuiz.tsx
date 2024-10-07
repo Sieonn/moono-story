@@ -282,7 +282,7 @@ const ResultContainer = styled.div`
 `;
 const MainBtn = styled.button`
   display: flexbox;
-  width: 90%;
+  width: 100%;
   background-color: ${theme.color.mainColor};
   cursor: pointer;
   color: #fff;
