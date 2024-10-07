@@ -11,4 +11,3 @@ export const loginAPI = async (userInfo: object) => {
     throw error; // 오류 발생 시 예외를 던져서 처리
   }
 };
-
