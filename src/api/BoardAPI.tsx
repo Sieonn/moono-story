@@ -4,7 +4,9 @@ const apiUrl = process.env.REACT_APP_API_URL;
 // Board 정보 불러오는 API
 export const GetBoardAPI = async () => {
   try {
-    const response = await axios(`${apiUrl}/api/cheerup`);
+    const response = await axios(`${apiUrl}/api/cheerup`, {
+      withCredentials: true,
+    });
     return response.data; // 성공 시 데이터 반환
   } catch (error) {
     console.error('데이터 불러오기 실패 : ', error);
