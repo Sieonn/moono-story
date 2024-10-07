@@ -12,7 +12,7 @@ export const RegisterAPI = async (userInfo: object) => {
 
     // const response = await axios.post(`${apiUrl}/api/user/register`, userInfo, {
     const response = await axios.post(`${apiUrl}/api/user/register`, userInfo, {
-      withCredentials: true,
+      withCredentials: false,
       headers: {
         'Content-Type': 'application/json', // JSON 형식으로 전송
       },
