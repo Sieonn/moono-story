@@ -174,18 +174,18 @@ const StartButton = styled.button`
   border: none;
   border-radius: 30px 30px 0 0;
   font-size: 1.6em;
-  font-weight: 400;
+  font-weight: 600;
   color: #171717;
   text-align: center;
   justify-content: center;
   align-items: center;
-  /* letter-spacing: 3px; */
+  letter-spacing: 3px;
   display: flex;
 
   cursor: pointer;
   &&:hover {
     color: #ffffff;
-    font-weight: 900;
+    font-weight: 600;
   }
 `;
 
