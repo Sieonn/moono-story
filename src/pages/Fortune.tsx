@@ -7,21 +7,20 @@ import theme from 'styles/theme';
 import styled, { keyframes } from 'styled-components';
 import { userAtom } from 'recoil/userAtom';
 import { useRecoilState } from 'recoil';
-import Stamp from '../components/css/Stamp';
 import { UserInfoAPI } from '../api/UserInfoAPI';
 import { StampAPI } from 'api/StampAPI';
 import { modeAtom } from 'recoil/modeAtom';
 import html2canvas from 'html2canvas'; // html2canvas 가져오기
 
 const Fortune: React.FC = (props: any) => {
-  const [user, setUser] = useRecoilState(userAtom);
+  const [user] = useRecoilState(userAtom);
   const [fortune, setFortune] = useState('');
   const [gender, setGender] = useState('');
   const [birthdate, setBirthdate] = useState('');
   const [isResultPage, setIsResultPage] = useState(false); // 화면 전환을 위한 상태 추가
   const [randomImage, setRandomImage] = useState(''); // 랜덤 이미지 상태
   const [isLoading, setIsLoading] = useState(false); // 로딩 상태 추가
-  const [st, setSt] = useState(false);
+  const [st] = useState(false);
   const [isDarkMode] = useRecoilState(modeAtom);
   // 이미지 배열 준비 (임시 경로 예시)
   const images = [
@@ -57,7 +56,6 @@ const Fortune: React.FC = (props: any) => {
     setRandomImage(selectedImage);
   }, []);
   useEffect(() => {
-    console.log('나 실행되고 있니 ..?');
     if (user && user.sub) {
       // 유저 정보 API 호출
       UserInfoAPI(user.sub)
@@ -77,7 +75,6 @@ const Fortune: React.FC = (props: any) => {
         });
     }
   }, [st]);
-  console.log(user);
 
   useEffect(() => {
     // 스템 API 호출
@@ -92,7 +89,6 @@ const Fortune: React.FC = (props: any) => {
         });
     }
   }, [user]);
-  console.log(stampStatus);
 
   // 현재 날짜를 "YYYY년 MM월 DD일" 형식으로 포맷하는 함수
   const getCurrentDate = () => {
@@ -168,20 +164,6 @@ const Fortune: React.FC = (props: any) => {
   };
 
   // 공유하기 버튼 클릭 시 호출되는 함수
-  const handleShare = () => {
-    if (navigator.share) {
-      navigator
-        .share({
-          title: '오늘의 운세',
-          text: `내 운세: ${fortune}`,
-          url: window.location.href,
-        })
-        .then(() => console.log('공유 성공'))
-        .catch((error) => console.log('공유 실패:', error));
-    } else {
-      alert('공유하기 기능이 지원되지 않는 브라우저입니다.');
-    }
-  };
 
   // 메인으로 가기 버튼 클릭 시 호출되는 함수
   const handleGoToMain = () => {

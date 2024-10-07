@@ -2,9 +2,7 @@ import React from 'react';
 import Header from '../components/form/Header';
 import Container from '../components/css/Container';
 import Contents from '../components/css/Contents';
-import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
-import { Button, TextField } from '@mui/material';
 import { useState, useRef, useEffect } from 'react';
 import { Stage, Layer, Text, Image, Rect } from 'react-konva';
 import useImage from 'use-image';
@@ -64,7 +62,6 @@ const mainChar = [
 ];
 
 const FourCutPage = () => {
-  const navigate = useNavigate();
   const [currentBg, setCurrentBg] = useState(0);
   const [currentChar, setCurrentChar] = useState(0);
   const [text, setText] = useState('');
@@ -73,7 +70,7 @@ const FourCutPage = () => {
   const [imagePosition, setImagePosition] = useState({ x: 40, y: 15 });
   const [textPosition, setTextPosition] = useState({ x: 30, y: 20 });
   const [fontSize, setFontSize] = useState(28);
-  const [user, setUser] = useRecoilState(userAtom);
+  const [user] = useRecoilState(userAtom);
   const [stampStatus, setStampStatus] = useState({
     id: '',
     nickName: '',
@@ -153,10 +150,6 @@ const FourCutPage = () => {
       .catch((error) => {
         console.error('스템 API 호출 실패:', error);
       });
-  };
-
-  const onBackBtn = () => {
-    navigate('/main');
   };
 
   const onClickImgBg = (e: any) => {

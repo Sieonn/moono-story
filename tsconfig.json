@@ -9,7 +9,7 @@
     "strict": true,
     "forceConsistentCasingInFileNames": true,
     "noFallthroughCasesInSwitch": true,
-    "module": "esnext",    
+    "module": "esnext",
     "moduleResolution": "node",
     "resolveJsonModule": true,
     "isolatedModules": true,
@@ -17,6 +17,7 @@
     "jsx": "react-jsx",
     "noUnusedLocals": false,
     "baseUrl": "src",
+    "noImplicitAny": false,
     "paths": {
       "@components/*": ["components/*"],
       "@utils/*": ["utils/*"]

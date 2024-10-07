@@ -5,7 +5,6 @@ import Header from '../components/form/Header';
 import Contents from '../components/css/Contents';
 import theme from 'styles/theme';
 import QuizData from '../assets/quiz.json';
-import { useNavigate } from 'react-router-dom';
 import { userAtom } from 'recoil/userAtom';
 import { useRecoilState } from 'recoil';
 import { UserInfoAPI } from '../api/UserInfoAPI';
@@ -13,15 +12,13 @@ import { StampAPI } from 'api/StampAPI';
 import { modeAtom } from 'recoil/modeAtom';
 
 const MooQuiz = () => {
-  const navigate = useNavigate();
   const [quizIndex, setQuizIndex] = useState(0); // 현재 퀴즈 인덱스
   const [score, setScore] = useState(0); // 맞은 개수
   const [showResult, setShowResult] = useState(false); // 결과 화면 여부
   const quiz = QuizData.quiz;
   const [isDarkMode] = useRecoilState(modeAtom);
-  const DarkMode = localStorage.getItem('darkMode');
 
-  const [user, setUser] = useRecoilState(userAtom);
+  const [user] = useRecoilState(userAtom);
   const [stampStatus, setStampStatus] = useState({
     id: '',
     nickName: '',

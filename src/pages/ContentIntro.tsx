@@ -3,16 +3,11 @@ import styled from 'styled-components';
 import theme from '../styles/theme';
 import { useParams, useNavigate } from 'react-router-dom';
 import Header from '../components/form/Header';
-import { modeAtom } from '../recoil/modeAtom';
-import { useRecoilState } from 'recoil';
-import { useEffect, useState } from 'react';
 
 export const ContentIntro = (props: any) => {
   const navigate = useNavigate();
   const { id } = useParams<{ id: string }>();
-  const [isDarkMode] = useRecoilState(modeAtom);
   const DarkMode = localStorage.getItem('darkMode') === 'true';
-  console.log(typeof DarkMode);
   // id에 따라 이미지 경로를 변경
   const getImageSrc = () => {
     switch (id) {

@@ -25,7 +25,6 @@ const RegisterPage = () => {
 
   const [isDarkMode] = useRecoilState(modeAtom);
 
-  console.log(registInfo);
 
   // 입력값 핸들러
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {

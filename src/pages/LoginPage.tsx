@@ -6,8 +6,6 @@ import { useNavigate } from 'react-router-dom';
 import { loginAPI } from 'api/LoginAPI';
 import Container from '../components/css/Container';
 import theme from 'styles/theme';
-import { useRecoilState } from 'recoil';
-import { modeAtom } from 'recoil/modeAtom';
 
 const LoginPage = (props: any) => {
   const navigate = useNavigate();
@@ -16,7 +14,6 @@ const LoginPage = (props: any) => {
     pwd: '',
   });
 
-  const [isDarkMode] = useRecoilState(modeAtom);
   const DarkMode = localStorage.getItem('darkMode') === 'true';
 
   const onChangeInfo = (e: any) => {

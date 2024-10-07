@@ -12,7 +12,7 @@ import { modeAtom } from 'recoil/modeAtom';
 const Main = (props: any) => {
   const navigate = useNavigate();
   const [darkMode, setDarkMode] = useRecoilState(modeAtom);
-  const [user, setUser] = useRecoilState(userAtom);
+  const [user] = useRecoilState(userAtom);
   const popoverRef = useRef<HTMLDivElement | null>(null); // ref 생성
   const [isOpen, setIsOpen] = useState<boolean>(false);
 

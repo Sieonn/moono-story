@@ -23,7 +23,7 @@ export const Introduce = () => {
   const [pageIndex, setPageIndex] = useState<number>(0);
   const [currentData, setCurrentData] = useState(data[pageIndex]);
   const [isDataLoaded, setIsDataLoaded] = useState<boolean>(false);
-  const [user, setUser] = useRecoilState(userAtom);
+  const [user] = useRecoilState(userAtom);
   const [isTypingComplete, setIsTypingComplete] = useState<boolean>(false);
   const messageRefs = useRef<(HTMLDivElement | null)[]>([]);
   const [stampStatus, setStampStatus] = useState({

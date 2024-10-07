@@ -1,5 +1,4 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { useNavigate } from 'react-router-dom';
 import { styled } from 'styled-components';
 import Header from '../components/form/Header';
 import Container from '../components/css/Container';
@@ -24,7 +23,6 @@ const CheerUpPage: React.FC = () => {
     fiveMission: false,
   });
   const [st, setSt] = useState(false);
-  const navigate = useNavigate();
   const [user] = useRecoilState(userAtom);
   const [textList, setTextList] = useState([]);
   const [postText, setPostText] = useState({
