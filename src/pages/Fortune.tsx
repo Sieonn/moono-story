@@ -131,11 +131,11 @@ const Fortune: React.FC = (props: any) => {
           messages: [
             {
               role: 'user',
-              content: `성별은 ${gender}이고, 생년월일은 ${birthdate}, 오늘은 ${currentDate}인데,입력받은 생년월일 기반으로 오늘의 운세 결과를 너무 길지 않게 친근한 말투로 출력해 그리고 같은 값을 입력했을 때 일관된 답변을 줘. 운세 다음 줄바꿈하고 행운 점수 100점 만점기준으로 표시`,
+              content: `오늘의 날짜는 ${currentDate}이다. 성별은 ${gender}이고, 생일은 ${birthdate}인 이름이 ${user.nickName}인 사람의 운세를 완전한 문장으로 출력하고 친근한 말투로 알려줘`,
             },
           ],
-          max_tokens: 180,
-          temperature: 0, //이 설정으로 일관된 답변 출력
+          max_tokens: 200,
+          temperature: 0.5, //이 설정으로 일관된 답변 출력
         },
         {
           headers: {
@@ -148,6 +148,7 @@ const Fortune: React.FC = (props: any) => {
       setFortune(response.data.choices[0].message.content);
       setRandomImage(getRandomImage()); // 새로운 랜덤 이미지 설정
       setIsResultPage(true); // 결과 페이지로 전환
+      // window.location.reload(); // 페이지 새로 고침
     } catch (error) {
       console.error('운세를 가져오는 중 오류 발생:', error);
       setFortune('운세를 가져오는 데 문제가 발생했습니다. 다시 시도해 주세요.');
@@ -162,7 +163,13 @@ const Fortune: React.FC = (props: any) => {
     setIsResultPage(false); // 입력 화면으로 전환
     setRandomImage(getRandomImage()); // 랜덤 이미지 새로 설정
   };
+  const handleInputFocus = (e: React.FocusEvent<HTMLInputElement>) => {
+    e.target.style.fontSize = '16px'; // 폰트 크기 설정
+  };
 
+  const handleInputBlur = (e: React.FocusEvent<HTMLInputElement>) => {
+    e.target.style.fontSize = 'initial'; // 기본 폰트 크기로 복원
+  };
   // 공유하기 버튼 클릭 시 호출되는 함수
 
   // 메인으로 가기 버튼 클릭 시 호출되는 함수
@@ -231,7 +238,14 @@ const Fortune: React.FC = (props: any) => {
           {'오늘의 운세 결과'}
         </Header>
         <Contents2 isDarkMode={isDarkMode}>
-          <div style={{ height: '600px', maxHeight: '78%' }}>
+          <div
+            style={{
+              display: 'flex',
+              flexDirection: 'column',
+              justifyContent: 'center',
+              marginTop: '20px',
+            }}
+          >
             <ResultCard id="result-card">
               <InnerCard>
                 <CardImage src={randomImage} alt="icon" />
@@ -300,7 +314,7 @@ const Fortune: React.FC = (props: any) => {
           </span>
           를 알아보세요.
         </div>
-        <div style={{ width: '100%', margin: '20px auto 30px' }}>
+        <div style={{ width: '100%' }}>
           <InputContainer>
             <MiniTitle>성별</MiniTitle>
             <GenderButtonContainer>
@@ -319,13 +333,15 @@ const Fortune: React.FC = (props: any) => {
             </GenderButtonContainer>
           </InputContainer>
           <InputContainer>
-            <MiniTitle>생년월일</MiniTitle>
+            <MiniTitle style={{ marginBottom: '5px' }}>생년월일</MiniTitle>
             <input
               type="text"
               value={birthdate}
               onChange={handleBirthdateChange}
               placeholder="생년월일 8자를 입력해주세요"
               maxLength={8} // 입력 글자 수를 8자로 제한
+              onFocus={handleInputFocus}
+              onBlur={handleInputBlur}
             />
           </InputContainer>
         </div>
@@ -399,13 +415,13 @@ const GlowingImage = styled.img`
   }
 `;
 const InputContainer = styled.div`
-  width: 80%;
+  width: 85%;
   display: flex;
   flex-direction: column;
   margin: 2% auto;
   gap: 10px;
   input {
-    font-size: 1em;
+    font-size: 14px;
     padding: 4%;
     border: none;
     border-radius: 10px;
@@ -422,13 +438,13 @@ const MiniTitle = styled.div`
 `;
 const FortuneSubmit = styled.button`
   font-family: 'Pretendard';
-  width: 80%;
+  width: 85%;
   color: ${theme.color.mainColor};
   background-color: #fff;
   font-size: 1.4em;
-  font-weight: 700;
+  font-weight: 600;
   padding: 3%;
-  border-radius: 10px;
+  border-radius: 5px;
   margin: 0 auto;
 `;
 const ResultCard = styled.div`
@@ -484,22 +500,22 @@ const ShareButton = styled.button`
   color: ${theme.color.mainColor};
   font-size: 1.2em;
   padding: 3%;
-  border-radius: 10px;
+  border-radius: 5px;
   cursor: pointer;
   border: none;
   width: 49%;
   text-align: center;
   font-family: 'Pretendard', sans-serif;
-  font-weight: 900;
+  font-weight: 400;
 `;
 
 const MainButton = styled.button`
-  font-weight: 600;
+  font-weight: 400;
   background-color: #e74c3c; /* 빨간색 배경 */
   color: white;
   font-size: 1.2em;
   padding: 3%;
-  border-radius: 10px;
+  border-radius: 5px;
   cursor: pointer;
   border: none;
   width: 49%;
@@ -511,8 +527,9 @@ const RetryStyle = styled.div`
   width: 100%;
   font-size: 1.1em;
   text-align: center;
-  font-weight: 600;
+  font-weight: 400;
   color: #ffffff;
+  margin-bottom: 10px;
   cursor: pointer;
   &:hover {
     color: #1c1c1c;
@@ -521,7 +538,6 @@ const RetryStyle = styled.div`
 const GenderButtonContainer = styled.div`
   display: flex;
   justify-content: space-around;
-  margin-top: 10px;
 `;
 
 const GenderButton = styled.button<{ isSelected: boolean }>`
@@ -531,7 +547,7 @@ const GenderButton = styled.button<{ isSelected: boolean }>`
   border: 3px solid #fff;
   padding: 2%;
   font-size: 1.2em;
-  font-weight: 700;
+  font-weight: 500 !important;
   border-radius: 5px;
   cursor: pointer;
   width: 47%;
@@ -553,7 +569,7 @@ const GenderButton = styled.button<{ isSelected: boolean }>`
 `;
 // 로딩 메시지 스타일
 const LoadingMessage = styled.div`
-  font-size: 1.2em;
+  font-size: 1.1em;
   font-weight: bold;
   color: #fff;
   text-align: center;
