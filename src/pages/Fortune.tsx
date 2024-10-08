@@ -424,7 +424,7 @@ const InputContainer = styled.div`
     font-size: 14px;
     padding: 4%;
     border: none;
-    border-radius: 10px;
+    border-radius: 5px;
     background-color: rgba(255, 255, 255, 0.49);
     &::placeholder {
       font-size: 0.9em;

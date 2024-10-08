@@ -68,32 +68,7 @@ const MooQuiz = () => {
       setShowResult(true); // 결과 화면 표시
     }
   };
-  // const handleShareClick = () => {
-  //   const shareUrl = 'https://yourwebsite.com/quiz'; // 공유할 URL
-  //   const shareText = `무퀴즈를 푸세요! 총 ${quiz.length}문제 중 ${score}문제를 맞췄어요!`;
 
-  //   window.Kakao.Share.sendDefault({
-  //     objectType: 'feed',
-  //     content: {
-  //       title: '무퀴즈',
-  //       description: shareText,
-  //       imageUrl: `${process.env.PUBLIC_URL}/images/quiz/Desertisland.png`,
-  //       link: {
-  //         webUrl: shareUrl,
-  //         mobileWebUrl: shareUrl,
-  //       },
-  //     },
-  //     buttons: [
-  //       {
-  //         title: '바로가기',
-  //         link: {
-  //           webUrl: shareUrl,
-  //           mobileWebUrl: shareUrl,
-  //         },
-  //       },
-  //     ],
-  //   });
-  // };
   const goToMain = () => {
     // 스템 API 호출
     StampAPI(stampStatus)
@@ -291,7 +266,7 @@ const MainBtn = styled.button`
   margin: auto;
   align-items: end;
   padding: 3%;
-  font-weight: 700;
+  font-weight: 600;
   font-size: 1em;
-  border-radius: 15px;
+  border-radius: 5px;
 `;
