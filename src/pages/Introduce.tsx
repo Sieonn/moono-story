@@ -150,10 +150,9 @@ export const Introduce = () => {
       >
         {'무너 소개서'}
       </Header>
-
       {pageIndex >= 0 ? (
         <StyledContents isDarkMode={isDarkMode}>
-          <ContentSection style={{ height: '50%' }}>
+          <ContentSection>
             <ImgSection>
               <img src={currentData.img} alt="무너 이미지" />
             </ImgSection>
@@ -163,7 +162,7 @@ export const Introduce = () => {
               style={{
                 fontSize: '0.7em',
                 textAlign: 'center',
-                margin: '0',
+                marginTop: '5px',
                 color: `${theme.color.mainColor}`,
               }}
             >
@@ -212,20 +211,22 @@ export const Introduce = () => {
           </ChattingContainer>
         </StyledContents>
       ) : (
-        <StyledContents isDarkMode={isDarkMode} style={{ minHeight: '930px' }}>
+        <StyledContents isDarkMode={isDarkMode}>
           <div
             style={{
-              width: '100%',
-              height: '100%',
-              minHeight: '300px',
-              display: 'flex',
-              flexDirection: 'column',
+              display: 'grid',
+              // flexDirection: 'column',
               justifyContent: 'center',
-              // marginTop: '10%',
             }}
           >
-            <ContentSection style={{ textAlign: 'center' }}>
-              <ImgSection style={{ minHeight: '400px' }}>
+            <ContentSection
+              style={{
+                textAlign: 'center',
+                margin: '0',
+                justifyContent: 'center',
+              }}
+            >
+              <ImgSection style={{ minHeight: '290px' }}>
                 <SemiTitle>SKILL</SemiTitle>
                 <img
                   src={
@@ -234,6 +235,7 @@ export const Introduce = () => {
                       : `${process.env.PUBLIC_URL}/images/intro/무너능력.png`
                   }
                   alt="무너 능력치"
+                  style={{ marginTop: '5px' }} // Adjust as needed
                 />
               </ImgSection>
               <SkillText isDarkMode={isDarkMode}>
@@ -247,20 +249,11 @@ export const Introduce = () => {
               <ImgSection style={{ margin: 'auto', flexDirection: 'row' }}>
                 <img
                   src={`${process.env.PUBLIC_URL}/images/intro/moo3.png`}
-                  style={{ width: '170px' }}
+                  style={{ width: '130px' }}
                 />
               </ImgSection>
             </ContentSection>
             <URLImg>
-              {/* <img
-                src={`${process.env.PUBLIC_URL}/images/intro/instagram.png`}
-                style={{ width: '35px' }} 
-              />
-              <img src={`${process.env.PUBLIC_URL}/images/intro/web.png`} />
-              <img src={`${process.env.PUBLIC_URL}/images/intro/uplus.png`} />
-              <img
-                src={`${process.env.PUBLIC_URL}/images/intro/moonostore.png`}
-              /> */}
               {imagesWithUrls.map((img, idx) => (
                 <a
                   key={idx}
@@ -272,7 +265,7 @@ export const Introduce = () => {
                   <img
                     src={img.src}
                     alt=""
-                    style={{ width: '35px', cursor: 'pointer' }} // 커서 포인터로 변경
+                    style={{ width: '35px', height: 'auto', cursor: 'pointer' }} // 커서 포인터로 변경
                   />
                   <div style={{ fontSize: '10px', textAlign: 'center' }}>
                     {img.name}
@@ -281,9 +274,7 @@ export const Introduce = () => {
               ))}
             </URLImg>
           </div>
-          <GoTMI onClick={goToMain} style={{ marginBottom: '20px' }}>
-            미션 완료
-          </GoTMI>
+          <GoTMI onClick={goToMain}>미션 완료</GoTMI>
         </StyledContents>
       )}
     </Container>
@@ -294,10 +285,9 @@ const WelcomeMessage = styled.div<{ isDarkMode: boolean }>`
   margin: 0 auto;
   width: 50%;
   text-align: center;
-  padding: 10px 0;
-  font-size: 10px;
+  padding: 1vh 0; // vh 단위로 패딩 조정
+  font-size: 2vw; // 반응형 폰트 크기
   color: ${({ isDarkMode }) => (isDarkMode ? '#fff' : '#000')};
-  margin-bottom: 10px;
   background-color: #e4e4e465;
   border-radius: 10px;
 `;
@@ -305,7 +295,6 @@ const URLImg = styled.div`
   display: flex;
   margin: auto;
   align-items: center;
-  /* min-height: 80px; */
 
   img {
     width: 40px;
@@ -317,7 +306,7 @@ const URLImg = styled.div`
 const ContentSection = styled.div`
   display: flex;
   flex-direction: column;
-  justify-content: flex-end;
+  /* justify-content: flex-end; */
   align-items: center;
 `;
 
@@ -328,8 +317,8 @@ const StyledContents = styled(Contents)`
 
 const ImgSection = styled.div`
   img {
-    width: 90%;
-    max-width: 250px;
+    width: 90%; // 너비를 화면의 90%로 설정
+    max-width: 250px; // 최대 너비
     height: auto;
   }
   display: flex;
@@ -337,7 +326,6 @@ const ImgSection = styled.div`
   margin: 10px auto;
   align-items: center;
 `;
-
 const SemiTitle = styled.div`
   font-size: 1em;
   text-align: center;
@@ -346,31 +334,29 @@ const SemiTitle = styled.div`
   color: #fff;
   background-color: ${theme.color.mainColor};
   margin: auto;
-  margin-bottom: 10%;
   padding: 5px 10px;
   border-radius: 20px;
+  margin-bottom: 0; /* Remove or adjust bottom margin */
 `;
 
 const SkillText = styled.div<{ isDarkMode: boolean }>`
-  width: 80%;
-  margin: auto;
+  width: 300px;
   color: ${({ isDarkMode }) => (isDarkMode ? '#000' : '#000')};
   background-color: ${({ isDarkMode }) => (isDarkMode ? '#fff' : '#f3f3f3')};
-  border-radius: 0 30px 0 30px;
+  border-radius: 0 20px 0 20px;
   padding: 5% 0;
   text-align: center;
   margin: 5% auto;
 `;
 
 const ChattingContainer = styled.div`
-  width: 80%;
-  height: 600px;
+  width: 80%; // vw 단위
+  height: 40%; // vh 단위
+  max-height: 600px; // 최대 높이
   display: flex;
-  flex: 1;
   flex-direction: column;
   gap: 10px;
   overflow-y: auto;
-  margin-bottom: 20%;
   &::-webkit-scrollbar {
     display: none;
   }
@@ -401,17 +387,17 @@ const TMISTtyle = styled.div<{ isDarkMode: boolean }>`
     margin-right: 5px;
   }
 `;
+// 버튼 크기 조정
 const GoTMI = styled.button`
   width: 90%;
   padding: 3%;
-  max-width: 430px;
+  max-width: 430px; // 최대 너비
   font-weight: 400;
-  font-size: 1.2em;
+  font-size: 1.2em; // 반응형 폰트 크기
   background-color: ${theme.color.mainColor};
   color: #fff;
   border-radius: 10px;
   margin: auto;
   align-items: center;
 `;
-
 export default Introduce;

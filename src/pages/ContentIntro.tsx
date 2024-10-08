@@ -88,7 +88,7 @@ export const ContentIntro = (props: any) => {
             style={{
               fontFamily: 'pretendard',
               fontSize: '28px',
-              fontWeight: '900',
+              fontWeight: '700',
               marginBottom: '15%',
             }}
           >

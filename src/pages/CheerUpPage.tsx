@@ -57,7 +57,7 @@ const CheerUpPage: React.FC = () => {
   useEffect(() => {
     if (st) {
       StampAPI(stampStatus)
-        .then((data) => {
+        .then(() => {
           alert('무너응원하기 미션 완료 !');
         })
         .catch((error) => {
@@ -133,7 +133,7 @@ const CheerUpPage: React.FC = () => {
       </Header>
       <Contents
         isDarkMode={isDarkMode}
-        style={{ backgroundColor: '#121212', color: '#fff' }}
+        style={{ backgroundColor: '#121212', color: '#fff', height: '100%' }}
       >
         <ImgArea>
           <img
@@ -142,11 +142,9 @@ const CheerUpPage: React.FC = () => {
             style={{ width: '100%' }}
           />
         </ImgArea>
-        <div
-          style={{ fontSize: '1.6em', fontWeight: '700', marginBottom: '2%' }}
-        >
+        <Title>
           <span style={{ color: '#ffd900' }}>응원</span>의 한마디
-        </div>
+        </Title>
         <BoardArea>
           {textList.map((data: any, idx) => (
             <TextLine
@@ -175,17 +173,7 @@ const CheerUpPage: React.FC = () => {
         </BoardArea>
         <InputArea2>
           <BoardInput onChange={onChangeText} value={postText.content} />
-          <InputBtn
-            onClick={onClickInputBtn}
-            style={{
-              backgroundColor: `${theme.color.mainColor}`,
-              borderRadius: '5px',
-              textAlign: 'center',
-              lineHeight: '1.3',
-            }}
-          >
-            입력
-          </InputBtn>
+          <InputBtn onClick={onClickInputBtn}>입력</InputBtn>
         </InputArea2>
       </Contents>
     </Container>
@@ -196,32 +184,43 @@ const TrashButton: React.FC<{ onClick: () => void }> = ({ onClick }) => {
   const [isHovered, setIsHovered] = useState(false);
 
   return (
-    <InputBtn
-      onMouseEnter={() => setIsHovered(true)}
-      onMouseLeave={() => setIsHovered(false)}
-      onClick={onClick}
-    >
+    <TrashBtnContainer onClick={onClick}>
       <img
         src={`${process.env.PUBLIC_URL}/images/cheerup/${isHovered ? 'trash2.png' : 'trash.png'}`}
         alt="Delete"
+        onMouseEnter={() => setIsHovered(true)}
+        onMouseLeave={() => setIsHovered(false)}
       />
-    </InputBtn>
+    </TrashBtnContainer>
   );
 };
 
-export default CheerUpPage;
+const TrashBtnContainer = styled.div`
+  cursor: pointer;
+  margin-left: 10px;
+  img {
+    width: 15px;
+  }
+`;
 
 const ImgArea = styled.div`
   margin-top: 14%;
   margin-bottom: 20px;
 `;
 
+const Title = styled.div`
+  font-size: 1.6em;
+  font-weight: 700;
+  margin-bottom: 2%;
+  text-align: center; // 제목 가운데 정렬
+`;
+
 const BoardArea = styled.div`
-  width: 90%;
+  width: 85%; // 반응형을 위해 너비 조정
   height: 40%;
   max-height: 300px; /* 최대 높이 설정 */
   overflow-y: auto; /* 세로 스크롤 추가 */
-  margin-bottom: 20px;
+  margin: 0 auto; // 가운데 정렬
 
   &::-webkit-scrollbar {
     display: none; /* 스크롤바 숨기기 */
@@ -230,19 +229,30 @@ const BoardArea = styled.div`
 
 const InputArea = styled.div`
   display: flex;
+  flex-direction: column; // 세로 방향으로 정렬
   margin-bottom: 20px;
+  align-items: center; // 아이템 가운데 정렬
 `;
-const InputArea2 = styled(InputArea)``;
+
+const InputArea2 = styled(InputArea)`
+  width: 90%; // 전체 너비 사용
+  flex-direction: row; // 가로 방향으로 변경
+`;
+
 const InputBtn = styled.div`
-  /* color: #fff;
-            borderColor: ${theme.color.mainColor};
-            borderRadius: 15px; */
+  width: 10%;
+  display: flex; // flexbox 사용
+  justify-content: center; // 가로 방향 가운데 정렬
+  align-items: center; // 세로 방향 가운데 정렬
   cursor: pointer;
-  padding: 5px 10px;
-  margin-left: 10px;
-  img {
-    width: 12px;
-  }
+  padding: 0 15px; // 충분한 패딩을 주어 클릭 영역을 늘림
+  /* margin-left: 10px; */
+  background-color: ${theme.color.mainColor}; // 기본 배경색 추가
+  border-radius: 5px; // 테두리 둥글게
+  height: 35px; // 버튼 높이를 늘림
+  font-size: 14px; // 글자 크기 조정
+  color: white; // 텍스트 색상 설정
+  transition: background-color 0.3s; // 마우스 오버 시 효과 추가
 `;
 
 const TextLine = styled.div`
@@ -251,3 +261,5 @@ const TextLine = styled.div`
   align-items: center;
   margin: 10px 0;
 `;
+
+export default CheerUpPage;

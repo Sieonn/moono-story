@@ -44,7 +44,7 @@ const InputContainer = styled.div<{ isDarkMode: boolean }>`
   transform: translateX(-50%); //가운데 정렬
   width: 100%;
   max-width: 430px; /* 부모 요소의 max-width와 동일하게 설정 */
-  padding: 12px 8px 32px;
+  padding-bottom: 20px;
   display: flex;
   justify-content: center;
 `;
@@ -109,12 +109,3 @@ const Blink = keyframes`
   }
 `;
 
-const Triangle = styled.div`
-  width: 0;
-  height: 0;
-  margin-right: 15px;
-  border-style: solid;
-  border-width: 6px 0px 6px 12px;
-  border-color: transparent ${theme.color.mainColor};
-  animation: ${Blink} 2.5s infinite;
-`;

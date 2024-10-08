@@ -32,8 +32,8 @@ const GlobalStyle = createGlobalStyle`
     font-weight: 500; /* 기본 폰트 굵기 */
     font-size: 14px;
     background-color: #f0f0f0;
-    -webkit-text-size-adjust: none;
-    -moz-text-size-adjust: none;
+    -webkit-text-size-adjust: auto;
+    -moz-text-size-adjust: auto;
     -ms-text-size-adjust: none;
     -o-text-size-adjust: none;
   }

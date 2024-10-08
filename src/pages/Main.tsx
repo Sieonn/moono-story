@@ -401,9 +401,9 @@ const ThirdButton = styled.div`
 `;
 
 const LogoStyled = styled.div`
-  font-weight: 900;
   color: ${theme.color.mainColor};
-  font-size: 2em;
+  font-size: 30px;
+  font-weight: 900 !important;
   letter-spacing: -4px;
   width: 60%;
 `;

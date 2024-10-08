@@ -5,8 +5,8 @@ const BoardInput = (props: any) => {
   return (
     <TextField
       variant="standard"
+      style={{ width: '100%' }}
       sx={{
-        width: '350px',
         '& .MuiInput-underline:before': {
           borderBottom: '2px solid',
           borderColor: '#8a8a8a',
@@ -21,10 +21,11 @@ const BoardInput = (props: any) => {
         },
         '& .MuiInputBase-input': {
           color: '#fff', // 입력 텍스트 색상
+          paddingLeft: '15px', // 왼쪽 패딩
         },
       }}
       InputProps={{
-        style: { color: '#fff' }, // 이 부분 추가
+        style: { color: '#fff' }, // 입력 텍스트 색상
       }}
       {...props}
     />
