@@ -286,7 +286,7 @@ const WelcomeMessage = styled.div<{ isDarkMode: boolean }>`
   width: 50%;
   text-align: center;
   padding: 1vh 0; // vh 단위로 패딩 조정
-  font-size: 2vw; // 반응형 폰트 크기
+  font-size: 10px; // 반응형 폰트 크기
   color: ${({ isDarkMode }) => (isDarkMode ? '#fff' : '#000')};
   background-color: #e4e4e465;
   border-radius: 10px;
