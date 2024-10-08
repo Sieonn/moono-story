@@ -1,8 +1,8 @@
-import { styled } from 'styled-components';
+import React, { useState } from 'react';
+import styled from 'styled-components';
 import Container from '../components/css/Container';
 import RegistInput from '../components/form/RegistInput';
 import LoginBtn from '../components/form/LoginBtn';
-import { useState } from 'react';
 import CheckRoundedIcon from '@mui/icons-material/CheckRounded';
 import { useNavigate } from 'react-router-dom';
 import { IdDuplicateAPI } from 'api/IdDuplicatge';
@@ -11,7 +11,7 @@ import theme from 'styles/theme';
 import { modeAtom } from 'recoil/modeAtom';
 import { useRecoilState } from 'recoil';
 import Header from '../components/form/Header';
-import { colors } from '@mui/material';
+import Modal from '../components/form/Modal';
 
 const RegisterPage = () => {
   const navigate = useNavigate();
@@ -23,6 +23,12 @@ const RegisterPage = () => {
   });
 
   const [isDarkMode] = useRecoilState(modeAtom);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  // 모달 토글 함수
+  const toggleModal = () => {
+    setIsModalOpen(!isModalOpen);
+  };
 
   // 입력값 핸들러
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -41,8 +47,8 @@ const RegisterPage = () => {
   const onRegistClick = async (e: any) => {
     try {
       const data = await RegisterAPI(registInfo); // 회원가입 API 호출
-      alert(data);
       setStep(step + 1);
+      toggleModal(); // 모달 열기
     } catch (error) {
       console.error('회원가입 실패', error);
       alert('로그인에 실패했습니다. 다시 시도해주세요.');
@@ -64,6 +70,7 @@ const RegisterPage = () => {
       alert('아이디 중복입니다. 다시 시도해주세요.');
     }
   };
+
   return (
     <Container style={{ paddingBottom: '120px' }} isDarkMode={isDarkMode}>
       <Header
@@ -190,7 +197,7 @@ const RegisterPage = () => {
             >
               회원가입 완료👍🏻
             </div>
-            <span style={{ color: '${theme.color.mainColor}' }}>
+            <span style={{ color: `${theme.color.mainColor}` }}>
               <span style={{ color: `${theme.color.mainColor}` }}>
                 무너의 이야기
               </span>
@@ -210,6 +217,16 @@ const RegisterPage = () => {
             시작하기
           </LoginBtn>
         </>
+      )}
+
+      {/* 모달 컴포넌트 */}
+      {isModalOpen && (
+        <Modal onClickToggleModal={toggleModal}>
+          <div style={{ padding: '20px', textAlign: 'center' }}>
+            회원가입이 완료되었습니다! 🎉
+          </div>
+          <LoginBtn onClick={toggleModal}>닫기</LoginBtn>
+        </Modal>
       )}
     </Container>
   );
