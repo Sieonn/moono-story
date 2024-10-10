@@ -45,6 +45,24 @@ const RegisterPage = () => {
 
   // 회원가입 완료 버튼
   const onRegistClick = async (e: any) => {
+    const fields = {
+      id: { value: registInfo.id, message: '아이디를 올바르게 입력해주세요.' },
+      pwd: {
+        value: registInfo.pwd,
+        message: '비밀번호를 올바르게 입력해주세요.',
+      },
+      nickName: {
+        value: registInfo.nickName,
+        message: '닉네임을 올바르게 입력해주세요.',
+      },
+    };
+    for (const key in fields) {
+      if (!fields[key].value.trim()) {
+        alert(fields[key].message);
+        return;
+      }
+    }
+
     try {
       const data = await RegisterAPI(registInfo); // 회원가입 API 호출
       setStep(step + 1);
@@ -57,7 +75,7 @@ const RegisterPage = () => {
 
   // 아이디 중복검사
   const idCheck = async (e: any) => {
-    if (!registInfo.id) {
+    if (!registInfo.id.trim()) {
       alert('아이디를 입력해주세요.');
       return;
     }
