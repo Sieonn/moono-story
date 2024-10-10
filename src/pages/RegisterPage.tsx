@@ -40,20 +40,26 @@ const RegisterPage = () => {
 
   // 다음 단계로 이동
   const nextStep = (e: any) => {
-    setStep(step + 1);
-  };
+    if (step === 2 && !registInfo.pwd.trim()) {
+      alert('비밀번호를 입력해주세요.'); // 비밀번호 공백 경고
+      return;
+    }
 
+    if (step === 3 && !registInfo.nickName.trim()) {
+      alert('닉네임을 입력해주세요.'); // 닉네임 공백 경고
+      return;
+    }
+
+    setStep(step + 1); // 다음 단계로 이동
+  };
   // 회원가입 완료 버튼
   const onRegistClick = async (e: any) => {
     const fields = {
-      id: { value: registInfo.id, message: '아이디를 올바르게 입력해주세요.' },
-      pwd: {
-        value: registInfo.pwd,
-        message: '비밀번호를 올바르게 입력해주세요.',
-      },
+      id: { value: registInfo.id, message: '아이디를 입력해주세요.' },
+      pwd: { value: registInfo.pwd, message: '비밀번호를 입력해주세요.' },
       nickName: {
         value: registInfo.nickName,
-        message: '닉네임을 올바르게 입력해주세요.',
+        message: '닉네임을 입력해주세요.',
       },
     };
     for (const key in fields) {
