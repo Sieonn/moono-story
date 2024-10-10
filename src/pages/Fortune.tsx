@@ -131,7 +131,7 @@ const Fortune: React.FC = (props: any) => {
           messages: [
             {
               role: 'user',
-              content: `오늘의 날짜는 ${currentDate}이다. 성별은 ${gender}이고, 생일은 ${birthdate}인 이름이 ${user.nickName}인 사람의 운세를 완전한 문장으로 출력하고 친근한 말투로 알려줘`,
+              content: `오늘은 ${currentDate}이다. 성별은 ${gender}이고, 생일은 ${birthdate}인 이름이 ${user.nickName}인 사람의 운세를 너무 길지 않게 100자 이내로 간단하게 알려줘`,
             },
           ],
           max_tokens: 200,
